@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule
             ->command('app:fetch-clips-command')
-            ->everyMinutes()
+            ->everyMinute()
             ->withoutOverlapping();
     }
 
