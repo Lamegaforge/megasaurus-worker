@@ -2,6 +2,8 @@
 
 namespace App\ValueObjects;
 
+use App\Enums\CardEnum;
+
 readonly final class Card
 {
     public function __construct(
@@ -13,8 +15,10 @@ readonly final class Card
     {
         $url = $attributes['box_art_url'];
 
-        $url = str_replace('{width}', 384, $url);
-        $url = str_replace('{height}', 576, $url);
+        str_replace(['{width}', '{height}'], [
+            CardEnum::Width->value,
+            CardEnum::Height->value,
+        ], $url);
 
         return new self(
             name: $attributes['id'],
