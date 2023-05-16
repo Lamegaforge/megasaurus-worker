@@ -13,7 +13,7 @@ class StoreFetchedClip
     {
         $author = $this->retrieveOrCreateAuthor($fetchedClip->author);
 
-        $clip = $this->makeClip($fetchedClip);
+        $clip = $this->retrieveOrCreateClip($fetchedClip);
 
         $clip->author()->associate($author);
 
@@ -31,10 +31,12 @@ class StoreFetchedClip
         ]);
     }
 
-    private function makeClip(FetchedClip $fetchedClip): Clip
+    private function retrieveOrCreateClip(FetchedClip $fetchedClip): Clip
     {
-        return Clip::make([
+        return Clip::firstOrNew([
             'external_id' => $fetchedClip->external_id,
+        ], [
+            'external_game_id' => $fetchedClip->external_game_id,
             'url' => $fetchedClip->url,
             'title' => $fetchedClip->title,
             'views' => $fetchedClip->views,

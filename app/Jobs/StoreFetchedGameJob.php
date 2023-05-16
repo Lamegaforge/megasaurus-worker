@@ -8,11 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\ValueObjects\FetchedClip;
-use App\Actions\StoreFetchedClip;
-use App\Actions\SaveThumbnailToSpace;
+use App\ValueObjects\FetchedGame;
+use App\Actions\StoreFetchedGame;
+use App\Actions\SaveCardToSpace;
 
-class StoreFetchedClipJob implements ShouldQueue
+class StoreFetchedGameJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,7 +20,7 @@ class StoreFetchedClipJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public FetchedClip $fetchedClip,
+        public FetchedGame $fetchedGame,
     ) {}
 
     /**
@@ -28,15 +28,15 @@ class StoreFetchedClipJob implements ShouldQueue
      */
     public function handle(): void
     {
-        app(StoreFetchedClip::class)->handle($this->fetchedClip);
+        app(StoreFetchedGame::class)->handle($this->fetchedGame);
 
-        app(SaveThumbnailToSpace::class)->handle(
-            thumbnail: $this->fetchedClip->thumbnail,
+        app(SaveCardToSpace::class)->handle(
+            card: $this->fetchedGame->card,
         );
     }
 
     public function uniqueId(): string
     {
-        return $this->fetchedClip->external_id;
+        return $this->fetchedGame->external_id;
     }
 }

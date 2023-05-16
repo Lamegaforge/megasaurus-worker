@@ -16,6 +16,11 @@ class Kernel extends ConsoleKernel
             ->command('app:fetch-clips-command')
             ->everyMinute()
             ->withoutOverlapping();
+
+        $schedule
+            ->command('app:fetch-games-command')
+            ->everyTenMinutes()
+            ->withoutOverlapping();
     }
 
     /**

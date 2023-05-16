@@ -7,7 +7,6 @@ use App\Actions\FetchClipsWithInterval;
 use App\ValueObjects\Interval;
 use App\ValueObjects\FetchedClip;
 use App\Jobs\StoreFetchedClipJob;
-use App\Storages\TwitchBearerTokenStorage;
 use App\Models\Clip;
 use Illuminate\Support\Collection;
 
@@ -34,10 +33,7 @@ class FetchClipsCommand extends Command
      */
     public function handle()
     {
-        $bearerToken = app(TwitchBearerTokenStorage::class)->get();
-
         $fetchedClips = app(FetchClipsWithInterval::class)->handle(
-            bearerToken: $bearerToken,
             interval: Interval::last48Hours(),
         );
 

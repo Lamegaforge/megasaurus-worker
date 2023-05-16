@@ -3,32 +3,31 @@
 namespace App\Actions;
 
 use Illuminate\Support\Facades\Http;
-use App\ValueObjects\Interval;
-use App\ValueObjects\FetchedClip;
+use App\ValueObjects\FetchedGame;
 use Illuminate\Support\Collection;
 use App\Storages\TwitchBearerTokenStorage;
 use Illuminate\Http\Client\Response;
 
-class FetchClipsWithInterval
+class FetchGamesFromExternalIds
 {
     public function __construct(
         private TwitchBearerTokenStorage $twitchBearerTokenStorage,
     ) {}
 
-    public function handle(Interval $interval): Collection
+    public function handle(Collection $externalId): Collection
     {
-        $url = 'https://api.twitch.tv/helix/clips'
-            . '?broadcaster_id=' . config('twitch.broadcaster.id')
-            . '&first=100'
-            . '&started_at=' . $interval->getStartedAt()
-            . '&ended_at=' . $interval->getendedAt();
+        $queryString = $externalId->map(function ($item) {
+            return 'id=' . $item;
+        })->implode('&');
 
-        $responses = $this->callHttpClient($url);
+        $url = 'https://api.twitch.tv/helix/games?' . $queryString;
 
-        return $responses
+        $response = $this->callHttpClient($url);
+
+        return $response
             ->collect('data')
             ->map(function ($attributes) {
-                return FetchedClip::from($attributes);
+                return FetchedGame::from($attributes);
             });
     }
 

@@ -2,22 +2,22 @@
 
 namespace App\Actions;
 
-use App\ValueObjects\Thumbnail;
+use App\ValueObjects\Card;
 use Illuminate\Filesystem\FilesystemManager;
 
-class SaveThumbnailToSpace
+class SaveCardToSpace
 {
     public function __construct(
         private FilesystemManager $filesystemManager,
     ) {}
 
-    public function handle(Thumbnail $thumbnail): void
+    public function handle(Card $card): void
     {
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'thumbnails/' . $thumbnail->name,
-            $thumbnail->content(),
+            'cards/' . $card->name,
+            $card->content(),
         );
     }
 }
