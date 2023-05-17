@@ -15,6 +15,9 @@ class FetchClipsWithInterval
         private TwitchBearerTokenStorage $twitchBearerTokenStorage,
     ) {}
 
+    /**
+     * @see https://dev.twitch.tv/docs/api/reference/#get-clips
+     */
     public function handle(Interval $interval): Collection
     {
         $url = 'https://api.twitch.tv/helix/clips'
