@@ -30,6 +30,7 @@ class FetchGamesCommand extends Command
     public function handle()
     {
         $externalGameIdList = Clip::doesntHave('game')
+            ->whereNotNull('external_game_id')
             ->pluck('external_game_id')
             ->unique();
 
