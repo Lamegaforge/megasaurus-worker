@@ -6,9 +6,14 @@ use App\Models\Clip;
 use App\Models\Author;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\FetchedAuthor;
+use App\Services\SuspiciousClipDetector;
 
 class StoreFetchedClip
 {
+    public function __construct(
+        private SuspiciousClipDetector $suspiciousClipDetector,
+    ) {}
+
     public function handle(FetchedClip $fetchedClip): Clip
     {
         $author = $this->retrieveOrCreateAuthor($fetchedClip->author);
@@ -33,6 +38,8 @@ class StoreFetchedClip
 
     private function retrieveOrCreateClip(FetchedClip $fetchedClip): Clip
     {
+        $state = $this->suspiciousClipDetector->fromFetchedClip($fetchedClip);
+
         return Clip::firstOrNew([
             'external_id' => $fetchedClip->external_id,
         ], [
@@ -40,6 +47,7 @@ class StoreFetchedClip
             'url' => $fetchedClip->url,
             'title' => $fetchedClip->title,
             'views' => $fetchedClip->views,
+            'state' => $state,
             'published_at' => $fetchedClip->published_at,
         ]);
     }

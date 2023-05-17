@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Author;
-use App\Models\Game;
+use App\Enums\ClipStateEnum;
 
 return new class extends Migration
 {
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('title');
             $table->integer('views');
+            $table->enum('state', ClipStateEnum::values());
             $table->timestamp('published_at');
             $table->timestamps();
         });

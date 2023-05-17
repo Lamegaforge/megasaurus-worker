@@ -7,6 +7,9 @@ phpstan:
 up:
 	valet composer up
 
+test:
+	/usr/local/opt/php@8.2/bin/php vendor/bin/phpunit
+
 fetch-clips:
 	/usr/local/opt/php@8.2/bin/php artisan app:fetch-clips-command
 

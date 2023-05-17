@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\ClipStateEnum;
 
 class Clip extends Model
 {
@@ -17,7 +18,13 @@ class Clip extends Model
         'title',
         'views',
         'title',
+        'state',
         'published_at',
+    ];
+
+    protected $casts = [
+        'state' => ClipStateEnum::class,
+        'published_at' => 'datetime',
     ];
 
     public function author()

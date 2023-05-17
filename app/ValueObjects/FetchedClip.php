@@ -14,6 +14,7 @@ readonly final class FetchedClip
         public string $url,
         public Thumbnail $thumbnail,
         public int $views,
+        public int $duration,
         public Carbon $published_at,
     ) {}
 
@@ -33,6 +34,7 @@ readonly final class FetchedClip
                 url: $attributes['thumbnail_url'],
             ),
             views: $attributes['view_count'],
+            duration: $attributes['duration'],
             published_at: Carbon::parse($attributes['created_at']),
         );
     }
