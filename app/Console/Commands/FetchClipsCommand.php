@@ -9,6 +9,7 @@ use App\ValueObjects\FetchedClip;
 use App\Jobs\StoreFetchedClipJob;
 use App\Models\Clip;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class FetchClipsCommand extends Command
 {
@@ -17,7 +18,7 @@ class FetchClipsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:fetch-clips-command';
+    protected $signature = 'app:fetch-clips-command {--startedAt=}';
 
     /**
      * The console command description.
@@ -33,9 +34,9 @@ class FetchClipsCommand extends Command
      */
     public function handle()
     {
-        $fetchedClips = app(FetchClipsWithInterval::class)->handle(
-            interval: Interval::last48Hours(),
-        );
+        $interval = $this->getFetchInterval();
+
+        $fetchedClips = app(FetchClipsWithInterval::class)->handle($interval);
 
         $fetchedClips
             ->reject(fn (FetchedClip $fetchedClip) => $this->alreadyStore($fetchedClip))
@@ -44,6 +45,15 @@ class FetchClipsCommand extends Command
             });
 
         return SELF::SUCCESS;
+    }
+
+    private function getFetchInterval(): Interval
+    {
+        $startedAt = $this->option('startedAt');
+
+        return $startedAt 
+            ? Interval::wholeMonthSince($startedAt)
+            : Interval::last24Hours();
     }
 
     private function alreadyStore(FetchedClip $fetchedClip): bool

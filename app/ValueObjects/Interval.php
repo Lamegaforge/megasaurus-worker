@@ -27,6 +27,16 @@ readonly final class Interval
         );
     }
 
+    public static function wholeMonthSince(string $startedAt): self
+    {
+        $startedAt = Carbon::parse($startedAt);
+
+        return new self(
+            startedAt: $startedAt,
+            endedAt: $startedAt->clone()->endOfMonth(),
+        );
+    }
+
     public function getStartedAt(): string
     {
         return $this->startedAt->toIso8601ZuluString();
