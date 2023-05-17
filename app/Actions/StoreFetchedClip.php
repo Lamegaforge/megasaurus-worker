@@ -47,6 +47,7 @@ class StoreFetchedClip
             'url' => $fetchedClip->url,
             'title' => $fetchedClip->title,
             'views' => $fetchedClip->views,
+            'duration' => $fetchedClip->duration,
             'state' => $state,
             'published_at' => $fetchedClip->published_at,
         ]);

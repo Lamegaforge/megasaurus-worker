@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('title');
             $table->integer('views');
+            $table->integer('duration');
             $table->enum('state', ClipStateEnum::values());
             $table->timestamp('published_at');
             $table->timestamps();

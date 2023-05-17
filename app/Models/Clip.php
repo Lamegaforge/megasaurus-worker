@@ -17,13 +17,15 @@ class Clip extends Model
         'url',
         'title',
         'views',
-        'title',
+        'duration',
         'state',
         'published_at',
     ];
 
     protected $casts = [
         'state' => ClipStateEnum::class,
+        'views' => 'integer',
+        'duration' => 'integer',
         'published_at' => 'datetime',
     ];
 
