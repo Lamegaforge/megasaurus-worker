@@ -19,4 +19,13 @@ class TwitchStub
             'created_at' => 1,
         ], $attributes);
     }
+
+    public static function makeGame(array $attributes = []): array
+    {
+        return array_merge([
+            'id' => 1,
+            'name' => 1,
+            'box_art_url' => 1,
+        ], $attributes);
+    }
 }

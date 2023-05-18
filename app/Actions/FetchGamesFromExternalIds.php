@@ -8,10 +8,10 @@ use Illuminate\Support\Collection;
 
 class FetchGamesFromExternalIds
 {
-    public function handle(Collection $externalId): Collection
+    public function handle(Collection $externalIdList): Collection
     {
-        $queryString = $externalId->map(function ($item) {
-            return 'id=' . $item;
+        $queryString = $externalIdList->map(function ($externalId) {
+            return 'id=' . $externalId;
         })->implode('&');
 
         $url = 'games?' . $queryString;
