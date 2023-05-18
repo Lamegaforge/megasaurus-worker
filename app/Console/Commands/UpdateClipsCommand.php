@@ -67,7 +67,7 @@ class UpdateClipsCommand extends Command
     private function disableFetchedClip(Collection $externalClipIdList): void
     {
         foreach ($externalClipIdList as $externalClipId) {
-            DisableClipFromExternalIdJob::dispatch($externalClipId)->onQueue('delete-clip');
+            DisableClipFromExternalIdJob::dispatch($externalClipId)->onQueue('disable-clip');
         }
     }
 }
