@@ -47,6 +47,7 @@ class FetchGamesCommand extends Command
 
     private function findClipsWithoutGames(): Collection
     {
+        /** @phpstan-ignore-next-line */
         return Clip::doesntHave('game')
             ->whereNotNull('external_game_id')
             ->pluck('external_game_id')

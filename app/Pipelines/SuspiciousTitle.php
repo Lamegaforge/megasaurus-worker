@@ -4,7 +4,7 @@ namespace App\Pipelines;
 
 use Closure;
 use App\Enums\ClipStateEnum;
-use App\valueObjects\SuspiciousBag;
+use App\ValueObjects\SuspiciousBag;
 
 class SuspiciousTitle
 {

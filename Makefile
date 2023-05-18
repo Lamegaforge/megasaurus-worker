@@ -2,10 +2,13 @@ fresh:
 	/usr/local/opt/php@8.2/bin/php artisan migrate:fresh
 
 phpstan:
-	vendor/bin/phpstan analyse
+	/usr/local/opt/php@8.2/bin/php vendor/bin/phpstan analyse
 
 up:
-	valet composer up
+	/usr/local/opt/composer/bin/composer up
+
+install:
+	/usr/local/opt/composer/bin/composer install
 
 test:
 	/usr/local/opt/php@8.2/bin/php vendor/bin/phpunit
