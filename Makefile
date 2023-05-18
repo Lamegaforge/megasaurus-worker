@@ -16,5 +16,8 @@ fetch-clips:
 fetch-games:
 	/usr/local/opt/php@8.2/bin/php artisan app:fetch-games-command
 
+update-clips:
+	/usr/local/opt/php@8.2/bin/php artisan app:update-clips-command
+
 octane-start:
 	/usr/local/opt/php@8.2/bin/php artisan octane:start --watch
