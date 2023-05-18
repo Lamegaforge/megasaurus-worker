@@ -6,7 +6,7 @@ enum ClipStateEnum : string
 {
     case Ok = 'ok';
     case Alive = 'alive';
-    case Dead = 'dead';
+    case Disable = 'disable';
     case Suspicious = 'suspicious';
 
     public static function values(): array
