@@ -31,6 +31,15 @@ class ClipFactory extends Factory
         ];
     }
 
+    public function withState(ClipStateEnum $clipStateEnum): Factory
+    {
+        return $this->state(function (array $attributes) use ($clipStateEnum) {
+            return [
+                'state' => $clipStateEnum,
+            ];
+        });
+    }
+
     public function configure()
     {
         return $this->afterMaking(function (Clip $clip) {

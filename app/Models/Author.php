@@ -14,6 +14,10 @@ class Author extends Model
         'external_id',
     ];
 
+    protected $casts = [
+        'external_id' => 'string',
+    ];
+
     public function clips()
     {
         return $this->hasMany(Clip::class);

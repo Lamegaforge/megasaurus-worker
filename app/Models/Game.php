@@ -13,4 +13,8 @@ class Game extends Model
         'external_id',
         'name',
     ];
+
+    protected $casts = [
+        'external_id' => 'string',
+    ];
 }

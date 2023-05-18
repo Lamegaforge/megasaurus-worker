@@ -23,6 +23,8 @@ class Clip extends Model
     ];
 
     protected $casts = [
+        'external_id' => 'string',
+        'external_game_id' => 'string',
         'state' => ClipStateEnum::class,
         'views' => 'integer',
         'duration' => 'integer',
