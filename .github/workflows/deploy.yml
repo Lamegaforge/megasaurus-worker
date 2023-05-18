@@ -1,6 +1,6 @@
-name: phpunit
+name: deploy
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -23,3 +23,12 @@ jobs:
 
       - name: PHPUnit analyse
         run: vendor/bin/phpunit
+
+      - name: PHPStan analyse
+        run: vendor/bin/phpstan
+
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.WEBHOOK_URL }}
+          method: 'GET'
