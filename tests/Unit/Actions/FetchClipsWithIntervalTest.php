@@ -4,7 +4,6 @@ namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
 use App\Actions\FetchClipsWithInterval;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use App\ValueObjects\FetchedClip;
 use Tests\Stubs\TwitchStub;
@@ -14,13 +13,12 @@ use App\ValueObjects\Interval;
 
 class FetchClipsWithIntervalTest extends TestCase
 {
-    use RefreshDatabase;
     use MockTwitchBearerTokenCache;
 
     /**
      * @test
      */
-    public function its_able_to_find_a_list_of_fetch_clips(): void
+    public function it_able_to_fetch_clips(): void
     {
         Http::fake([
             'api.twitch.tv/*' => Http::response(['data' => [
