@@ -3,6 +3,7 @@
 namespace App\ValueObjects;
 
 use App\Enums\CardEnum;
+use App\Services\ContentFetcherService;
 
 readonly final class Card
 {
@@ -26,8 +27,8 @@ readonly final class Card
         );
     }
 
-    public function content()
+    public function content(): string
     {
-        return file_get_contents($this->url);
+        return app(ContentFetcherService::class)->fetch($this->url);
     }
 }

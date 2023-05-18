@@ -2,6 +2,8 @@
 
 namespace App\ValueObjects;
 
+use App\Services\ContentFetcherService;
+
 readonly final class Thumbnail
 {
     public function __construct(
@@ -9,8 +11,8 @@ readonly final class Thumbnail
         public string $url,
     ) {}
 
-    public function content()
+    public function content(): string
     {
-        return file_get_contents($this->url);
+        return app(ContentFetcherService::class)->fetch($this->url);
     }
 }
