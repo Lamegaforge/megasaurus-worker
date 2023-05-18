@@ -7,6 +7,7 @@ use App\ValueObjects\FetchedGame;
 use App\Jobs\StoreFetchedGameJob;
 use App\Models\Clip;
 use App\Actions\FetchGamesFromExternalIds;
+use Illuminate\Support\Collection;
 
 class FetchGamesCommand extends Command
 {
@@ -29,17 +30,26 @@ class FetchGamesCommand extends Command
      */
     public function handle()
     {
-        $externalGameIdList = Clip::doesntHave('game')
-            ->whereNotNull('external_game_id')
-            ->pluck('external_game_id')
-            ->unique();
+        $clipsWithoutGames = $this->findClipsWithoutGames();
 
-        $fetchedGames = app(FetchGamesFromExternalIds::class)->handle($externalGameIdList);
+        if ($clipsWithoutGames->isEmpty()) {
+            return SELF::SUCCESS;
+        }
+
+        $fetchedGames = app(FetchGamesFromExternalIds::class)->handle($clipsWithoutGames);
 
         $fetchedGames->map(function (FetchedGame $fetchedGame) {
             StoreFetchedGameJob::dispatch($fetchedGame)->onQueue('fetch-game');
         });
 
         return SELF::SUCCESS;
+    }
+
+    private function findClipsWithoutGames(): Collection
+    {
+        return Clip::doesntHave('game')
+            ->whereNotNull('external_game_id')
+            ->pluck('external_game_id')
+            ->unique();
     }
 }
