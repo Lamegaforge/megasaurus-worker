@@ -9,7 +9,6 @@ use App\ValueObjects\FetchedClip;
 use App\Jobs\StoreFetchedClipJob;
 use App\Models\Clip;
 use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 class FetchClipsCommand extends Command
 {
