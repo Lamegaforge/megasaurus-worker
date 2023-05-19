@@ -16,7 +16,7 @@ readonly final class Card
     {
         $url = $attributes['box_art_url'];
 
-        str_replace(['{width}', '{height}'], [
+        $url = str_replace(['{width}', '{height}'], [
             CardEnum::Width->value,
             CardEnum::Height->value,
         ], $url);
