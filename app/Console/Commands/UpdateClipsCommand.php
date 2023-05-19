@@ -31,7 +31,7 @@ class UpdateClipsCommand extends Command
      */
     public function handle()
     {
-        Clip::where('state', ClipStateEnum::Ok)
+        Clip::whereIn('state', [ClipStateEnum::Ok, ClipStateEnum::Suspicious])
             ->chunk(100, function ($clips) {
 
                 $externalClipIdList = $clips->pluck('external_id');

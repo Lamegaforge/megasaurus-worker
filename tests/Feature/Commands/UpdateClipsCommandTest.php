@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Commands;
 
+use Closure;
 use Tests\TestCase;
 use App\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,11 +21,12 @@ class UpdateClipsCommandTest extends TestCase
 
     /**
      * @test
+     * @dataProvider updatableStateProvider
      */
-    public function it_able_to_update_a_clip(): void
+    public function it_able_to_update_a_clip(Closure $state): void
     {
         $clip = Clip::factory()
-            ->withState(ClipStateEnum::Ok)
+            ->withState($state())
             ->create();
 
         Queue::fake();
@@ -49,11 +51,12 @@ class UpdateClipsCommandTest extends TestCase
 
     /**
      * @test
+     * @dataProvider updatableStateProvider
      */
-    public function it_able_to_disable_a_clip(): void
+    public function it_able_to_disable_a_clip(Closure $state): void
     {
         $clip = Clip::factory()
-            ->withState(ClipStateEnum::Ok)
+            ->withState($state())
             ->create();
 
         Queue::fake();
@@ -73,4 +76,42 @@ class UpdateClipsCommandTest extends TestCase
             return $job->externalId === $clip->external_id;
         });
     }
+
+    /**
+     * @test
+     * @dataProvider notUpdatableStateProvider
+     */
+    public function some_states_are_not_updatable(Closure $state): void
+    {
+        $clip = Clip::factory()
+            ->withState($state())
+            ->create();
+
+        Queue::fake();
+
+        $this->artisan('app:update-clips-command')->assertSuccessful();
+
+        Http::assertNothingSent();
+        Queue::assertNothingPushed();
+    }
+
+    /** 
+     * At this time, Laravel is not yet bootstrapped
+     * Using a closure is a simple trick to delayed instantiation
+     */
+    public static function updatableStateProvider(): array
+    {
+        return [
+            [fn () => ClipStateEnum::Ok],
+            [fn () => ClipStateEnum::Suspicious],
+        ];
+    }
+
+    public static function notUpdatableStateProvider(): array
+    {
+        return [
+            [fn () => ClipStateEnum::Disable],
+        ];
+    }
+
 }
