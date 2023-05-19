@@ -38,15 +38,19 @@ class UpdateClipsCommand extends Command
 
                 $fetchedClips = app(FetchClipsFromExternalIds::class)->handle($externalClipIdList);
 
-                $partitioned = $this->partitionClips($externalClipIdList, $fetchedClips);
+                [$clipsToUpdate, $clipsToDisable] = $this->partitionClips($externalClipIdList, $fetchedClips);
 
-                $this->updateFetchedClip($partitioned[0], $fetchedClips);
-                $this->disableFetchedClip($partitioned[1]);
+                $this->updateClip($clipsToUpdate, $fetchedClips);
+                $this->disableClip($clipsToDisable);
             });
 
         return SELF::SUCCESS;
     }
 
+    /**
+     * if one of the clips of the chunk no longer appears in the api fetch
+     * it means it should be disabled
+     */
     private function partitionClips(Collection $externalClipIdList, Collection $fetchedClips): Collection
     {
         return $externalClipIdList->partition(function ($externalClipId) use ($fetchedClips) {
@@ -54,7 +58,7 @@ class UpdateClipsCommand extends Command
         });
     }
 
-    private function updateFetchedClip(Collection $externalClipIdList, Collection $fetchedClips): void
+    private function updateClip(Collection $externalClipIdList, Collection $fetchedClips): void
     {
         foreach ($externalClipIdList as $externalClipId) {
 
@@ -64,7 +68,7 @@ class UpdateClipsCommand extends Command
         }
     }
 
-    private function disableFetchedClip(Collection $externalClipIdList): void
+    private function disableClip(Collection $externalClipIdList): void
     {
         foreach ($externalClipIdList as $externalClipId) {
             DisableClipFromExternalIdJob::dispatch($externalClipId)->onQueue('disable-clip');
