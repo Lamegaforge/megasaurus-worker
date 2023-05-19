@@ -14,7 +14,7 @@ install:
 	$(COMPOSER) install
 
 test:
-	$(PHP) vendor/bin/phpunit
+	$(PHP) vendor/bin/phpunit $(arg)
 
 fetch-clips:
 	$(PHP) artisan app:fetch-clips-command
