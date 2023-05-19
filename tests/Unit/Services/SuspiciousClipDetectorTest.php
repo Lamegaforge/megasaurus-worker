@@ -26,6 +26,8 @@ class SuspiciousClipDetectorTest extends TestCase
      */
     public function it_able_to_detect_suspicious_clip_because_of_its_duration(): void
     {
+        $this->markTestSkipped('feature currently dormant');
+
         $fetchedClip = $this->makeFetchedClip([
             'duration' => 30,
         ]);

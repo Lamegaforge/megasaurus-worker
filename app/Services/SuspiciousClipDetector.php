@@ -20,7 +20,6 @@ class SuspiciousClipDetector
                 $fetchedClip->duration,
             ))
             ->through([
-                SuspiciousDuration::class,
                 SuspiciousTitle::class,
             ])
             ->thenReturn();
