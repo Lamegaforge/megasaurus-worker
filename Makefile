@@ -1,26 +1,29 @@
+PHP = /usr/local/opt/php@8.2/bin/php
+COMPOSER = /usr/local/opt/composer/bin/composer
+
 fresh:
-	/usr/local/opt/php@8.2/bin/php artisan migrate:fresh
+	$(PHP) artisan migrate:fresh
 
 phpstan:
-	/usr/local/opt/php@8.2/bin/php vendor/bin/phpstan analyse
+	$(PHP) vendor/bin/phpstan analyse
 
 up:
-	/usr/local/opt/composer/bin/composer up
+	$(COMPOSER) up
 
 install:
-	/usr/local/opt/composer/bin/composer install
+	$(COMPOSER) install
 
 test:
-	/usr/local/opt/php@8.2/bin/php vendor/bin/phpunit
+	$(PHP) vendor/bin/phpunit
 
 fetch-clips:
-	/usr/local/opt/php@8.2/bin/php artisan app:fetch-clips-command
+	$(PHP) artisan app:fetch-clips-command
 
 fetch-games:
-	/usr/local/opt/php@8.2/bin/php artisan app:fetch-games-command
+	$(PHP) artisan app:fetch-games-command
 
 update-clips:
-	/usr/local/opt/php@8.2/bin/php artisan app:update-clips-command
+	$(PHP) artisan app:update-clips-command
 
 octane-start:
-	/usr/local/opt/php@8.2/bin/php artisan octane:start --watch
+	$(PHP) artisan octane:start --watch
