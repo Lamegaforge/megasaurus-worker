@@ -7,16 +7,16 @@ class TwitchStub
     public static function makeClip(array $attributes = []): array
     {
         return array_merge([
-            'id' => 1,
-            'game_id' => 1,
-            'title' => 1,
-            'creator_id' => 1,
-            'creator_name' => 1,
-            'url' => 1,
-            'thumbnail_url' => 1,
-            'view_count' => 1,
-            'duration' => 1,
-            'created_at' => 1,
+            'id' => 'SavageMoldyKoalaKappaClaus',
+            'game_id' => '509658',
+            'title' => 'Jaime le futbole',
+            'creator_id' => '519157370',
+            'creator_name' => 'Dig_Bill',
+            'url' => 'https://clips.twitch.tv/SavageMoldyKoalaKappaClaus',
+            'thumbnail_url' => 'https://clips-media-assets2.twitch.tv/AT-cm%7C933243563-preview-480x272.jpg',
+            'view_count' => '157',
+            'duration' => '25',
+            'created_at' => '2020-11-15T20:58:38Z',
         ], $attributes);
     }
 
