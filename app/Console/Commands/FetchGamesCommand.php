@@ -30,27 +30,20 @@ class FetchGamesCommand extends Command
      */
     public function handle()
     {
-        $clipsWithoutGames = $this->findClipsWithoutGames();
+        Clip::doesntHave('game')
+            ->whereNotNull('external_game_id')
+            ->distinct('external_game_id')
+            ->chunkById(100, function ($clips) {
 
-        if ($clipsWithoutGames->isEmpty()) {
-            return SELF::SUCCESS;
-        }
+                $externalIdList = $clips->pluck('external_game_id');
 
-        $fetchedGames = app(FetchGamesFromExternalIds::class)->handle($clipsWithoutGames);
+                $fetchedGames = app(FetchGamesFromExternalIds::class)->handle($externalIdList);
 
-        $fetchedGames->map(function (FetchedGame $fetchedGame) {
-            StoreFetchedGameJob::dispatch($fetchedGame)->onQueue('fetch-game');
-        });
+                $fetchedGames->map(function (FetchedGame $fetchedGame) {
+                    StoreFetchedGameJob::dispatch($fetchedGame)->onQueue('fetch-game');
+                });
+            });
 
         return SELF::SUCCESS;
-    }
-
-    private function findClipsWithoutGames(): Collection
-    {
-        /** @phpstan-ignore-next-line */
-        return Clip::doesntHave('game')
-            ->whereNotNull('external_game_id')
-            ->pluck('external_game_id')
-            ->unique();
     }
 }

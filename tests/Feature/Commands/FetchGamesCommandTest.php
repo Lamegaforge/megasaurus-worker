@@ -44,6 +44,27 @@ class FetchGamesCommandTest extends TestCase
     /**
      * @test
      */
+    public function it_able_to_dispatch_games_in_batch(): void
+    {
+        Queue::fake();
+
+        Clip::factory()->count(150)->create();
+
+        Http::fake([
+            'api.twitch.tv/*' => Http::response(['data' => [
+                TwitchStub::makeGame(),
+            ]], 200),
+        ]);
+
+        $this->artisan('app:fetch-games-command')->assertSuccessful();
+
+        Http::assertSentCount(2);
+        Queue::assertPushed(StoreFetchedGameJob::class, 2);
+    }
+
+    /**
+     * @test
+     */
     public function it_able_to_send_nothing_when_all_clips_have_a_game(): void
     {
         Queue::fake();
