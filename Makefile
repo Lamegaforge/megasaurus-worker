@@ -25,5 +25,5 @@ fetch-games:
 update-clips:
 	$(PHP) artisan app:update-clips-command
 
-octane-start:
-	$(PHP) artisan octane:start --watch
+regularize-games:
+	$(PHP) artisan app:regularize-games-created-at

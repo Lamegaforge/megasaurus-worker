@@ -12,6 +12,7 @@ class Game extends Model
     protected $fillable = [
         'external_id',
         'name',
+        'created_at',
     ];
 
     protected $casts = [
