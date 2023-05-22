@@ -30,6 +30,7 @@ class FetchGamesCommand extends Command
      */
     public function handle()
     {
+        /** @phpstan-ignore-next-line */
         Clip::doesntHave('game')
             ->whereNotNull('external_game_id')
             ->distinct('external_game_id')
