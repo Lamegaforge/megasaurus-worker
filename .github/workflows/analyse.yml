@@ -24,5 +24,8 @@ jobs:
         run: |
           composer install --quiet --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
 
+      - name: PHPUnit analyse
+        run: vendor/bin/phpunit
+
       - name: PHPStan analyse
         run: vendor/bin/phpstan
