@@ -4,6 +4,10 @@ COMPOSER = /usr/local/opt/composer/bin/composer
 fresh:
 	$(PHP) artisan migrate:fresh
 
+ready:
+	make paratest
+	make phpstan
+
 phpstan:
 	$(PHP) vendor/bin/phpstan analyse
 
