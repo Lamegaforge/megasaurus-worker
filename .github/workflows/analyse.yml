@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Set PHP version
         uses: shivammathur/setup-php@v2
