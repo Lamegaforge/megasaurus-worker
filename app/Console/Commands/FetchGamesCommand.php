@@ -7,7 +7,6 @@ use App\ValueObjects\FetchedGame;
 use App\Jobs\StoreFetchedGameJob;
 use App\Models\Clip;
 use App\Actions\FetchGamesFromExternalIds;
-use Illuminate\Support\Collection;
 
 class FetchGamesCommand extends Command
 {

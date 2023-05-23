@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;
 use Tests\Traits\MockTwitchBearerTokenCache;
 use Illuminate\Support\Facades\Queue;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use App\Jobs\UpdateClipFromFetchedClipJob;
 use App\Jobs\DisableClipFromExternalIdJob;
 

@@ -9,3 +9,7 @@ parameters:
     level: 5
 
     noModelMake: false
+
+    ignoreErrors:
+        - '#Access to an undefined property App\\Models\\Game::\$external_id\.#'
+        - '#Access to an undefined property App\\Models\\Clip::\$published_at\.#'

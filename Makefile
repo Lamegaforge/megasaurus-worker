@@ -4,6 +4,10 @@ COMPOSER = /usr/local/opt/composer/bin/composer
 fresh:
 	$(PHP) artisan migrate:fresh
 
+ready:
+	make paratest
+	make phpstan
+
 phpstan:
 	$(PHP) vendor/bin/phpstan analyse
 
@@ -15,6 +19,9 @@ install:
 
 test:
 	$(PHP) vendor/bin/phpunit $(arg)
+
+paratest:
+	$(PHP) vendor/bin/paratest --processes=5
 
 fetch-clips:
 	$(PHP) artisan app:fetch-clips-command

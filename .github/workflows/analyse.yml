@@ -18,8 +18,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Install composer dependencies
-        run: composer install --quiet --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Install Dependencies
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{secrets.COMPOSER_AUTH}}"} }'
+        run: |
+          composer install --quiet --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: PHPUnit analyse
+        run: vendor/bin/phpunit
 
       - name: PHPStan analyse
         run: vendor/bin/phpstan

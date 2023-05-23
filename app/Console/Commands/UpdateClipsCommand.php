@@ -8,7 +8,7 @@ use App\Jobs\DisableClipFromExternalIdJob;
 use App\Models\Clip;
 use App\Actions\FetchClipsFromExternalIds;
 use Illuminate\Support\Collection;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 
 class UpdateClipsCommand extends Command
 {
