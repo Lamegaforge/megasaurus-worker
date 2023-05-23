@@ -16,6 +16,9 @@ install:
 test:
 	$(PHP) vendor/bin/phpunit $(arg)
 
+paratest:
+	$(PHP) vendor/bin/paratest --processes=5
+
 fetch-clips:
 	$(PHP) artisan app:fetch-clips-command
 
