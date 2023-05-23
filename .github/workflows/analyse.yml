@@ -13,7 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          repository: lamegaforge/megasaurus-domain
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set PHP version
         uses: shivammathur/setup-php@v2
