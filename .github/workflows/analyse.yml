@@ -12,9 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-        with:
-          repository: lamegaforge/megasaurus-domain
-          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add HTTP basic auth credentials
+        run: echo '${{ secrets.COMPOSER_AUTH_JSON }}' > $GITHUB_WORKSPACE/auth.json
 
       - name: Set PHP version
         uses: shivammathur/setup-php@v2
