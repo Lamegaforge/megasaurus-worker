@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Jobs\UpdateClipFromFetchedClipJob;
 use App\Jobs\DisableClipFromExternalIdJob;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use App\Actions\FetchClipsFromExternalIds;
 use Illuminate\Support\Collection;
 use Domain\Enums\ClipStateEnum;

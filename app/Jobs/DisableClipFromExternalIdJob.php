@@ -19,8 +19,7 @@ class DisableClipFromExternalIdJob implements ShouldQueue
      */
     public function __construct(
         public string $externalId,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Commands;
 
 use Tests\TestCase;
-use App\Models\Clip;
-use App\Models\Game;
+use Domain\Models\Clip;
+use Domain\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;
@@ -24,7 +24,9 @@ class FetchGamesCommandTest extends TestCase
     {
         Queue::fake();
 
-        $clip = Clip::factory()->create();
+        $game = Game::factory()->create([
+            'name' => null,
+        ]);
 
         Http::fake([
             'api.twitch.tv/*' => Http::response(['data' => [
@@ -34,8 +36,8 @@ class FetchGamesCommandTest extends TestCase
 
         $this->artisan('app:fetch-games-command')->assertSuccessful();
 
-        Http::assertSent(function ($request) use ($clip) {
-            return $request->url() === 'https://api.twitch.tv/helix/games?id=' . $clip->external_game_id;
+        Http::assertSent(function ($request) use ($game) {
+            return $request->url() === 'https://api.twitch.tv/helix/games?id=' . $game->external_id;
         });
 
         Queue::assertPushed(StoreFetchedGameJob::class);
@@ -48,7 +50,9 @@ class FetchGamesCommandTest extends TestCase
     {
         Queue::fake();
 
-        Clip::factory()->count(150)->create();
+        Game::factory()->count(150)->create([
+            'name' => null,
+        ]);
 
         Http::fake([
             'api.twitch.tv/*' => Http::response(['data' => [
@@ -65,13 +69,11 @@ class FetchGamesCommandTest extends TestCase
     /**
      * @test
      */
-    public function it_able_to_send_nothing_when_all_clips_have_a_game(): void
+    public function it_able_to_send_nothing_when_all_games_are_ready(): void
     {
         Queue::fake();
 
-        Clip::factory()
-            ->for(Game::factory())
-            ->create();
+        Game::factory()->create();
 
         $this->artisan('app:fetch-games-command')->assertSuccessful();
 

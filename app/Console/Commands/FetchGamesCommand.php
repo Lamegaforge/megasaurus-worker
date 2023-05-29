@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\ValueObjects\FetchedGame;
-use App\Jobs\StoreFetchedGameJob;
-use App\Models\Clip;
+use App\Jobs\UpdateGameFromFetchedGameJob;
+use Domain\Models\Game;
 use App\Actions\FetchGamesFromExternalIds;
 
 class FetchGamesCommand extends Command
@@ -15,7 +15,7 @@ class FetchGamesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:fetch-games-command';
+    protected $signature = 'app:update-games-command';
 
     /**
      * The console command description.
@@ -29,18 +29,15 @@ class FetchGamesCommand extends Command
      */
     public function handle()
     {
-        /** @phpstan-ignore-next-line */
-        Clip::doesntHave('game')
-            ->whereNotNull('external_game_id')
-            ->distinct('external_game_id')
-            ->chunkById(100, function ($clips) {
+        Game::whereNull('name')
+            ->chunkById(100, function ($games) {
 
-                $externalIdList = $clips->pluck('external_game_id');
+                $externalIdList = $games->pluck('external_id');
 
                 $fetchedGames = app(FetchGamesFromExternalIds::class)->handle($externalIdList);
 
                 $fetchedGames->map(function (FetchedGame $fetchedGame) {
-                    StoreFetchedGameJob::dispatch($fetchedGame)->onQueue('fetch-game');
+                    UpdateGameFromFetchedGameJob::dispatch($fetchedGame)->onQueue('fetch-game');
                 });
             });
 

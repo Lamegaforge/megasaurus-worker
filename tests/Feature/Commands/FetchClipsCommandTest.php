@@ -3,7 +3,7 @@
 namespace Tests\Feature\Commands;
 
 use Tests\TestCase;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;

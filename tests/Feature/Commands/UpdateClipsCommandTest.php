@@ -4,7 +4,7 @@ namespace Tests\Feature\Commands;
 
 use Closure;
 use Tests\TestCase;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;
@@ -83,7 +83,7 @@ class UpdateClipsCommandTest extends TestCase
      */
     public function some_states_are_not_updatable(Closure $state): void
     {
-        $clip = Clip::factory()
+        Clip::factory()
             ->withState($state())
             ->create();
 

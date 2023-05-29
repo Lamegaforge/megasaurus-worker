@@ -2,11 +2,13 @@
 
 namespace App\Actions;
 
-use App\Models\Clip;
-use App\Models\Author;
+use Domain\Models\Clip;
+use Domain\Models\Author;
+use Domain\Models\Game;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\FetchedAuthor;
 use App\Services\SuspiciousClipDetector;
+use App\Jobs\GameCreationFinalizerJob;
 
 class StoreFetchedClip
 {
@@ -18,9 +20,13 @@ class StoreFetchedClip
     {
         $author = $this->retrieveOrCreateAuthor($fetchedClip->author);
 
+        $game = $this->retrieveOrCreateGame($fetchedClip);
+
         $clip = $this->retrieveOrCreateClip($fetchedClip);
 
         $clip->author()->associate($author);
+
+        $clip->game()->associate($game);
 
         $clip->save();
 
@@ -34,6 +40,15 @@ class StoreFetchedClip
         ], [
             'name' => $fetchedAuthor->name,
         ]);
+    }
+
+    private function retrieveOrCreateGame(FetchedClip $fetchedClip): Game
+    {
+        $game = Game::firstOrCreate([
+            'external_id' => $fetchedClip->external_game_id,
+        ], []);
+
+        return $game;
     }
 
     private function retrieveOrCreateClip(FetchedClip $fetchedClip): Clip

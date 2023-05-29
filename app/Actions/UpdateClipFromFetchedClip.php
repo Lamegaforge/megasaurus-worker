@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Clip;
+use Domain\Models\Clip;
 use App\ValueObjects\FetchedClip;
 use App\Services\SuspiciousClipDetector;
 

@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Clip;
+use Domain\Models\Clip;
 use Domain\Enums\ClipStateEnum;
 
 class DisableClipFromExternalId
