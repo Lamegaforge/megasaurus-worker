@@ -8,7 +8,7 @@ readonly final class FetchedClip
 {
     public function __construct(
         public ExternalId $externalId,
-        public ExternalId $externalGameId,
+        public ?ExternalId $externalGameId,
         public string $title,
         public FetchedAuthor $author,
         public string $url,
@@ -22,7 +22,7 @@ readonly final class FetchedClip
     {
         return new self(
             externalId: new ExternalId($attributes['id']),
-            externalGameId: new ExternalId($attributes['game_id']),
+            externalGameId: $attributes['game_id'] ? new ExternalId($attributes['game_id']) : null,
             title: $attributes['title'],
             author: new FetchedAuthor(
                 externalId: new ExternalId($attributes['creator_id']),
