@@ -4,23 +4,23 @@ namespace App\Actions;
 
 use Domain\Models\Clip;
 use Domain\Models\Author;
-use Domain\Models\Game;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\FetchedAuthor;
 use App\Services\SuspiciousClipDetector;
-use App\Jobs\FinalizeGameCreationJob;
+use App\Actions\StoreGameFromFetchedClip;
 
 class StoreFetchedClip
 {
     public function __construct(
         private SuspiciousClipDetector $suspiciousClipDetector,
+        private StoreGameFromFetchedClip $storeGameFromFetchedClip,
     ) {}
 
     public function handle(FetchedClip $fetchedClip): Clip
     {
         $author = $this->retrieveOrCreateAuthor($fetchedClip->author);
 
-        $game = $this->retrieveOrCreateGame($fetchedClip);
+        $game = $this->storeGameFromFetchedClip->handle($fetchedClip);
 
         $clip = $this->retrieveOrCreateClip($fetchedClip);
 
@@ -40,19 +40,6 @@ class StoreFetchedClip
         ], [
             'name' => $fetchedAuthor->name,
         ]);
-    }
-
-    private function retrieveOrCreateGame(FetchedClip $fetchedClip): Game
-    {
-        $game = Game::firstOrCreate([
-            'external_id' => $fetchedClip->externalGameId,
-        ], []);
-
-        if ($game->wasRecentlyCreated) {
-            FinalizeGameCreationJob::dispatch($fetchedClip->externalGameId)->onQueue('finalize-game');
-        }
-
-        return $game;
     }
 
     private function retrieveOrCreateClip(FetchedClip $fetchedClip): Clip

@@ -51,7 +51,7 @@ class UpdateClipsCommand extends Command
     }
 
     /**
-     * if one of the clips of the chunk no longer appears in the api fetch
+     * if one of the saved clips of the chunk no longer appears in the api fetch
      * it means it should be disabled
      */
     private function partitionClips(Collection $savedExternalClipIdList, Collection $fetchedClips): Collection
