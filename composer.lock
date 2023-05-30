@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.271.3",
+            "version": "3.271.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f481134d37b8303fa2e82ca7fe2a3124144057f6"
+                "reference": "bc19179c5f070b3d7ca7fe8a87eaeda1464b94e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f481134d37b8303fa2e82ca7fe2a3124144057f6",
-                "reference": "f481134d37b8303fa2e82ca7fe2a3124144057f6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bc19179c5f070b3d7ca7fe8a87eaeda1464b94e5",
+                "reference": "bc19179c5f070b3d7ca7fe8a87eaeda1464b94e5",
                 "shasum": ""
             },
             "require": {
@@ -151,9 +151,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.271.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.271.4"
             },
-            "time": "2023-05-26T18:20:00+00:00"
+            "time": "2023-05-30T18:21:41+00:00"
         },
         {
             "name": "brick/math",
@@ -1308,12 +1308,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lamegaforge/megasaurus-domain.git",
-                "reference": "bd22cba5d8f68fb5fdc90ba81c5f5d68dcce5681"
+                "reference": "63a54231e861d06e8891121c11ca1b0f2552bd35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lamegaforge/megasaurus-domain/zipball/bd22cba5d8f68fb5fdc90ba81c5f5d68dcce5681",
-                "reference": "bd22cba5d8f68fb5fdc90ba81c5f5d68dcce5681",
+                "url": "https://api.github.com/repos/Lamegaforge/megasaurus-domain/zipball/63a54231e861d06e8891121c11ca1b0f2552bd35",
+                "reference": "63a54231e861d06e8891121c11ca1b0f2552bd35",
                 "shasum": ""
             },
             "require": {
@@ -1334,20 +1334,20 @@
                 "source": "https://github.com/Lamegaforge/megasaurus-domain/tree/master",
                 "issues": "https://github.com/Lamegaforge/megasaurus-domain/issues"
             },
-            "time": "2023-05-29T19:01:48+00:00"
+            "time": "2023-05-30T18:56:12+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v10.12.0",
+            "version": "v10.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9e6dcff23ab1d4b522bef56074c31625cf077576"
+                "reference": "7322723585103082758d74917db62980684845cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9e6dcff23ab1d4b522bef56074c31625cf077576",
-                "reference": "9e6dcff23ab1d4b522bef56074c31625cf077576",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7322723585103082758d74917db62980684845cb",
+                "reference": "7322723585103082758d74917db62980684845cb",
                 "shasum": ""
             },
             "require": {
@@ -1534,7 +1534,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-05-23T18:04:16+00:00"
+            "time": "2023-05-30T14:46:25+00:00"
         },
         {
             "name": "laravel/sanctum",
