@@ -7,7 +7,7 @@ use App\Actions\FetchClipsWithInterval;
 use App\ValueObjects\Interval;
 use App\ValueObjects\FetchedClip;
 use App\Jobs\StoreFetchedClipJob;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use Illuminate\Support\Collection;
 
 class FetchClipsCommand extends Command
@@ -59,7 +59,7 @@ class FetchClipsCommand extends Command
     {
         $this->clipsAlreadySaved ??= $this->getClipsAlreadySaved();
 
-        return $this->clipsAlreadySaved->contains($fetchedClip->external_id);
+        return $this->clipsAlreadySaved->contains($fetchedClip->externalId);
     }
 
     private function getClipsAlreadySaved(): Collection

@@ -4,9 +4,10 @@ namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
 use Domain\Enums\ClipStateEnum;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use App\Actions\DisableClipFromExternalId;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\ValueObjects\ExternalId;
 
 class DisableClipFromExternalIdTest extends TestCase
 {
@@ -15,11 +16,13 @@ class DisableClipFromExternalIdTest extends TestCase
     /**
      * @test
      */
-    public function it_able_to_disable_a_clip(): void
+    public function it_able_to_disable_a_clipqsdsdsq(): void
     {
         $clip = Clip::factory()->create();
 
-        app(DisableClipFromExternalId::class)->handle($clip->external_id);
+        app(DisableClipFromExternalId::class)->handle(
+            new ExternalId($clip->external_id),
+        );
 
         $clip->refresh();
 

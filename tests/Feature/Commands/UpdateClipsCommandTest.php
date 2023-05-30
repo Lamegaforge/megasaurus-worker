@@ -4,7 +4,7 @@ namespace Tests\Feature\Commands;
 
 use Closure;
 use Tests\TestCase;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;
@@ -45,7 +45,7 @@ class UpdateClipsCommandTest extends TestCase
         Queue::assertNotPushed(DisableClipFromExternalIdJob::class);
 
         Queue::assertPushed(function (UpdateClipFromFetchedClipJob $job) use ($clip) {
-            return $job->fetchedClip->external_id === $clip->external_id;
+            return $job->fetchedClip->externalId->value === $clip->external_id;
         });
     }
 
@@ -73,7 +73,7 @@ class UpdateClipsCommandTest extends TestCase
         Queue::assertPushed(DisableClipFromExternalIdJob::class, 1);
 
         Queue::assertPushed(function (DisableClipFromExternalIdJob $job) use ($clip) {
-            return $job->externalId === $clip->external_id;
+            return $job->externalId->value === $clip->external_id;
         });
     }
 
@@ -83,7 +83,7 @@ class UpdateClipsCommandTest extends TestCase
      */
     public function some_states_are_not_updatable(Closure $state): void
     {
-        $clip = Clip::factory()
+        Clip::factory()
             ->withState($state())
             ->create();
 

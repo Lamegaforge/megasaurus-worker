@@ -11,5 +11,5 @@ parameters:
     noModelMake: false
 
     ignoreErrors:
-        - '#Access to an undefined property App\\Models\\Game::\$external_id\.#'
-        - '#Access to an undefined property App\\Models\\Clip::\$published_at\.#'
+        - '#Access to an undefined property Domain\\Models\\Game::\$external_id\.#'
+        - '#Access to an undefined property Domain\\Models\\Clip::\$published_at\.#'

@@ -4,12 +4,15 @@ namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
 use App\ValueObjects\FetchedClip;
-use App\Models\Clip;
-use App\Models\Author;
+use Domain\Models\Clip;
+use Domain\Models\Game;
+use Domain\Models\Author;
 use App\Actions\StoreFetchedClip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Stubs\TwitchStub;
 use Illuminate\Testing\Assert;
+use Illuminate\Support\Facades\Queue;
+use App\Jobs\FinalizeGameCreationJob;
 
 class StoreFetchedClipTest extends TestCase
 {
@@ -20,6 +23,8 @@ class StoreFetchedClipTest extends TestCase
      */
     public function it_able_to_store_fetched_clip(): void
     {
+        Queue::fake();
+
         $fetchedClip = FetchedClip::from(
             TwitchStub::makeClip([
                 'id' => '123456',
@@ -39,6 +44,7 @@ class StoreFetchedClipTest extends TestCase
 
         $this->assertTrue($clip->wasRecentlyCreated);
         $this->assertTrue($clip->author->wasRecentlyCreated);
+        $this->assertTrue($clip->game->wasRecentlyCreated);
 
         Assert::assertArraySubset([
             'external_id' => '123456',
@@ -53,6 +59,9 @@ class StoreFetchedClipTest extends TestCase
                 'external_id' => '456',
                 'name' => 'author_name',
             ],
+            'game' => [
+                'external_id' => '789456',
+            ],
         ], $clip->toArray());
     }
 
@@ -61,6 +70,8 @@ class StoreFetchedClipTest extends TestCase
      */
     public function it_able_to_store_fetched_clip_already_saved(): void
     {
+        Queue::fake();
+
         $clip = Clip::factory()->create();
 
         $fetchedClip = FetchedClip::from(
@@ -79,6 +90,8 @@ class StoreFetchedClipTest extends TestCase
      */
     public function it_able_to_store_fetched_clip_with_an_author_already_saved(): void
     {
+        Queue::fake();
+
         $author = Author::factory()->create();
 
         $fetchedClip = FetchedClip::from(
@@ -90,5 +103,45 @@ class StoreFetchedClipTest extends TestCase
         $clip = app(StoreFetchedClip::class)->handle($fetchedClip);
 
         $this->assertFalse($clip->author->wasRecentlyCreated);
+    }
+
+    /**
+     * @test
+     */
+    public function it_able_to_store_fetched_clip_with_an_game_already_saved(): void
+    {
+        Queue::fake();
+
+        $game = Game::factory()->create();
+
+        $fetchedClip = FetchedClip::from(
+            TwitchStub::makeClip([
+                'game_id' => $game->external_id,
+            ]),
+        );
+
+        $clip = app(StoreFetchedClip::class)->handle($fetchedClip);
+
+        $this->assertFalse($clip->game->wasRecentlyCreated);
+
+        Queue::assertNotPushed(FinalizeGameCreationJob::class);
+    }
+
+    /**
+     * @test
+     */
+    public function it_raises_appropriate_event_to_finalize_game_creation(): void
+    {
+        Queue::fake();
+
+        $fetchedClip = FetchedClip::from(
+            TwitchStub::makeClip(),
+        );
+
+        $clip = app(StoreFetchedClip::class)->handle($fetchedClip);
+
+        Queue::assertPushed(function (FinalizeGameCreationJob $job) use ($clip) {
+            return $job->externalId->value === $clip->external_game_id;
+        });
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Clip;
-use App\Models\Game;
+use Domain\Models\Clip;
+use Domain\Models\Game;
 
 class RegularizeGamesCreatedAt extends Command
 {

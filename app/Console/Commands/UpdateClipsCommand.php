@@ -5,10 +5,11 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Jobs\UpdateClipFromFetchedClipJob;
 use App\Jobs\DisableClipFromExternalIdJob;
-use App\Models\Clip;
+use Domain\Models\Clip;
 use App\Actions\FetchClipsFromExternalIds;
 use Illuminate\Support\Collection;
 use Domain\Enums\ClipStateEnum;
+use App\ValueObjects\ExternalId;
 
 class UpdateClipsCommand extends Command
 {
@@ -34,11 +35,13 @@ class UpdateClipsCommand extends Command
         Clip::whereIn('state', [ClipStateEnum::Ok, ClipStateEnum::Suspicious])
             ->chunk(100, function ($clips) {
 
-                $externalClipIdList = $clips->pluck('external_id');
+                $savedExternalClipIdList = $clips->pluck('external_id');
 
-                $fetchedClips = app(FetchClipsFromExternalIds::class)->handle($externalClipIdList);
+                $fetchedClips = app(FetchClipsFromExternalIds::class)->handle($savedExternalClipIdList);
 
-                [$clipsToUpdate, $clipsToDisable] = $this->partitionClips($externalClipIdList, $fetchedClips);
+                $fetchedClips = $fetchedClips->groupBy('externalId.value');
+
+                [$clipsToUpdate, $clipsToDisable] = $this->partitionClips($savedExternalClipIdList, $fetchedClips);
 
                 $this->updateClip($clipsToUpdate, $fetchedClips);
                 $this->disableClip($clipsToDisable);
@@ -51,27 +54,30 @@ class UpdateClipsCommand extends Command
      * if one of the clips of the chunk no longer appears in the api fetch
      * it means it should be disabled
      */
-    private function partitionClips(Collection $externalClipIdList, Collection $fetchedClips): Collection
+    private function partitionClips(Collection $savedExternalClipIdList, Collection $fetchedClips): Collection
     {
-        return $externalClipIdList->partition(function ($externalClipId) use ($fetchedClips) {
-            return $fetchedClips->contains('external_id', $externalClipId);
+        return $savedExternalClipIdList->partition(function ($savedExternalClipId) use ($fetchedClips) {
+            return $fetchedClips->has($savedExternalClipId);
         });
     }
 
-    private function updateClip(Collection $externalClipIdList, Collection $fetchedClips): void
+    private function updateClip(Collection $clipsToUpdate, Collection $fetchedClips): void
     {
-        foreach ($externalClipIdList as $externalClipId) {
+        foreach ($clipsToUpdate as $clipToUpdate) {
 
-            $fetchedClip = $fetchedClips->where('external_id', $externalClipId)->first();
+            $fetchedClip = $fetchedClips->get($clipToUpdate)->first();
 
             UpdateClipFromFetchedClipJob::dispatch($fetchedClip)->onQueue('update-clip');
         }
     }
 
-    private function disableClip(Collection $externalClipIdList): void
+    private function disableClip(Collection $clipsToDisable): void
     {
-        foreach ($externalClipIdList as $externalClipId) {
-            DisableClipFromExternalIdJob::dispatch($externalClipId)->onQueue('disable-clip');
+        foreach ($clipsToDisable as $clipToDisable) {
+
+            $externalId = new ExternalId($clipToDisable);
+
+            DisableClipFromExternalIdJob::dispatch($externalId)->onQueue('disable-clip');
         }
     }
 }

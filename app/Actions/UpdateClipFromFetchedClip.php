@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Models\Clip;
+use Domain\Models\Clip;
 use App\ValueObjects\FetchedClip;
 use App\Services\SuspiciousClipDetector;
 
@@ -16,7 +16,7 @@ class UpdateClipFromFetchedClip
     {
         $state = $this->suspiciousClipDetector->fromFetchedClip($fetchedClip);
 
-        Clip::where('external_id', $fetchedClip->external_id)
+        Clip::where('external_id', $fetchedClip->externalId)
             ->update([
                 'title' => $fetchedClip->title,
                 'views' => $fetchedClip->views,

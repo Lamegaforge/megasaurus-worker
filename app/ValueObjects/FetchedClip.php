@@ -7,8 +7,8 @@ use Carbon\Carbon;
 readonly final class FetchedClip
 {
     public function __construct(
-        public string $external_id,
-        public string $external_game_id,
+        public ExternalId $externalId,
+        public ExternalId $externalGameId,
         public string $title,
         public FetchedAuthor $author,
         public string $url,
@@ -21,11 +21,11 @@ readonly final class FetchedClip
     public static function from(array $attributes): self
     {
         return new self(
-            external_id: $attributes['id'],
-            external_game_id: $attributes['game_id'],
+            externalId: new ExternalId($attributes['id']),
+            externalGameId: new ExternalId($attributes['game_id']),
             title: $attributes['title'],
             author: new FetchedAuthor(
-                external_id: $attributes['creator_id'],
+                externalId: new ExternalId($attributes['creator_id']),
                 name: $attributes['creator_name'],
             ),
             url: $attributes['url'],

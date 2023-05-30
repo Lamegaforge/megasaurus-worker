@@ -21,8 +21,8 @@ class FetchedClipTest extends TestCase
         );
 
         $this->assertInstanceOf(FetchedClip::class, $fetchedClip);
-        $this->assertEquals('SavageMoldyKoalaKappaClaus', $fetchedClip->external_id);
-        $this->assertEquals('509658', $fetchedClip->external_game_id);
+        $this->assertEquals('SavageMoldyKoalaKappaClaus', $fetchedClip->externalId);
+        $this->assertEquals('509658', $fetchedClip->externalGameId);
         $this->assertEquals('Jaime le futbole', $fetchedClip->title);
         $this->assertEquals('https://clips.twitch.tv/SavageMoldyKoalaKappaClaus', $fetchedClip->url);
         $this->assertEquals('157', $fetchedClip->views);
@@ -31,7 +31,7 @@ class FetchedClipTest extends TestCase
         $author = $fetchedClip->author;
 
         $this->assertInstanceOf(FetchedAuthor::class, $author);
-        $this->assertEquals('519157370', $author->external_id);
+        $this->assertEquals('519157370', $author->externalId);
         $this->assertEquals('Dig_Bill', $author->name);
 
         $thumbnail = $fetchedClip->thumbnail;

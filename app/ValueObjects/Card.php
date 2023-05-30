@@ -8,7 +8,6 @@ use App\Services\ContentFetcherService;
 readonly final class Card
 {
     public function __construct(
-        public string $name,
         public string $url,
     ) {}
 
@@ -22,7 +21,6 @@ readonly final class Card
         ], $url);
 
         return new self(
-            name: $attributes['id'],
             url: $url,
         );
     }
