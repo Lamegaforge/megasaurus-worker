@@ -36,15 +36,15 @@ class FinalizeGameCreationJob implements ShouldQueue
 
         $fetchedGame = app(FetchGameFromExternalId::class)->handle($externalId);
 
-        app(UpdateGameFromFetchedGame::class)->handle($game, $fetchedGame);
+        app(UpdateGameFromFetchedGame::class)->handle($fetchedGame);
 
         app(SaveCardToSpace::class)->handle(
-            name: $externalId,
+            externalId: $externalId,
             card: $fetchedGame->card,
         );
     }
 
-    public function uniqueId(): string
+    public function uniqueId(): int
     {
         return $this->gameId;
     }
