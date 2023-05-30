@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Actions\DisableClipFromExternalId;
+use App\ValueObjects\ExternalId;
 
 class DisableClipFromExternalIdJob implements ShouldQueue
 {
@@ -18,7 +19,7 @@ class DisableClipFromExternalIdJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public string $externalId,
+        public ExternalId $externalId,
     ) {}
 
     /**
@@ -31,6 +32,6 @@ class DisableClipFromExternalIdJob implements ShouldQueue
 
     public function uniqueId(): string
     {
-        return $this->externalId;
+        return $this->externalId->value;
     }
 }

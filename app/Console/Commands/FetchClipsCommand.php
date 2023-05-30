@@ -59,7 +59,7 @@ class FetchClipsCommand extends Command
     {
         $this->clipsAlreadySaved ??= $this->getClipsAlreadySaved();
 
-        return $this->clipsAlreadySaved->contains($fetchedClip->external_id);
+        return $this->clipsAlreadySaved->contains($fetchedClip->externalId);
     }
 
     private function getClipsAlreadySaved(): Collection

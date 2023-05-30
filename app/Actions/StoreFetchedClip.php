@@ -37,7 +37,7 @@ class StoreFetchedClip
     private function retrieveOrCreateAuthor(FetchedAuthor $fetchedAuthor): Author
     {
         return Author::firstOrCreate([
-            'external_id' => $fetchedAuthor->external_id,
+            'external_id' => $fetchedAuthor->externalId,
         ], [
             'name' => $fetchedAuthor->name,
         ]);
@@ -46,12 +46,12 @@ class StoreFetchedClip
     private function retrieveOrCreateGame(FetchedClip $fetchedClip): Game
     {
         $game = Game::firstOrCreate([
-            'external_id' => $fetchedClip->external_game_id,
+            'external_id' => $fetchedClip->externalGameId,
         ], []);
 
         if ($game->wasRecentlyCreated) {
             FinalizeGameCreationJob::dispatch(
-                new ExternalId($fetchedClip->external_game_id),
+                new ExternalId($fetchedClip->externalGameId),
             )->onQueue('finalize-game');
         }
 
@@ -63,9 +63,9 @@ class StoreFetchedClip
         $state = $this->suspiciousClipDetector->fromFetchedClip($fetchedClip);
 
         return Clip::firstOrNew([
-            'external_id' => $fetchedClip->external_id,
+            'external_id' => $fetchedClip->externalId,
         ], [
-            'external_game_id' => $fetchedClip->external_game_id,
+            'external_game_id' => $fetchedClip->externalGameId,
             'url' => $fetchedClip->url,
             'title' => $fetchedClip->title,
             'views' => $fetchedClip->views,

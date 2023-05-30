@@ -7,6 +7,7 @@ use Domain\Enums\ClipStateEnum;
 use Domain\Models\Clip;
 use App\Actions\DisableClipFromExternalId;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\ValueObjects\ExternalId;
 
 class DisableClipFromExternalIdTest extends TestCase
 {
@@ -19,7 +20,9 @@ class DisableClipFromExternalIdTest extends TestCase
     {
         $clip = Clip::factory()->create();
 
-        app(DisableClipFromExternalId::class)->handle($clip->external_id);
+        app(DisableClipFromExternalId::class)->handle(
+            new ExternalId($clip->external_id),
+        );
 
         $clip->refresh();
 

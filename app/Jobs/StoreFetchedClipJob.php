@@ -37,6 +37,6 @@ class StoreFetchedClipJob implements ShouldQueue
 
     public function uniqueId(): string
     {
-        return $this->fetchedClip->external_id;
+        return $this->fetchedClip->externalId;
     }
 }

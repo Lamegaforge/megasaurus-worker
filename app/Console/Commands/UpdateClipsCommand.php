@@ -9,6 +9,7 @@ use Domain\Models\Clip;
 use App\Actions\FetchClipsFromExternalIds;
 use Illuminate\Support\Collection;
 use Domain\Enums\ClipStateEnum;
+use App\ValueObjects\ExternalId;
 
 class UpdateClipsCommand extends Command
 {
@@ -54,7 +55,7 @@ class UpdateClipsCommand extends Command
     private function partitionClips(Collection $externalClipIdList, Collection $fetchedClips): Collection
     {
         return $externalClipIdList->partition(function ($externalClipId) use ($fetchedClips) {
-            return $fetchedClips->contains('external_id', $externalClipId);
+            return $fetchedClips->contains('externalId', $externalClipId);
         });
     }
 
@@ -62,7 +63,7 @@ class UpdateClipsCommand extends Command
     {
         foreach ($externalClipIdList as $externalClipId) {
 
-            $fetchedClip = $fetchedClips->where('external_id', $externalClipId)->first();
+            $fetchedClip = $fetchedClips->where('externalId', $externalClipId)->first();
 
             UpdateClipFromFetchedClipJob::dispatch($fetchedClip)->onQueue('update-clip');
         }
@@ -71,7 +72,10 @@ class UpdateClipsCommand extends Command
     private function disableClip(Collection $externalClipIdList): void
     {
         foreach ($externalClipIdList as $externalClipId) {
-            DisableClipFromExternalIdJob::dispatch($externalClipId)->onQueue('disable-clip');
+
+            $externalId = new ExternalId($externalClipId);
+
+            DisableClipFromExternalIdJob::dispatch($externalId)->onQueue('disable-clip');
         }
     }
 }

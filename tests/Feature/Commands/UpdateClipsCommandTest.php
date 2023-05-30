@@ -45,7 +45,7 @@ class UpdateClipsCommandTest extends TestCase
         Queue::assertNotPushed(DisableClipFromExternalIdJob::class);
 
         Queue::assertPushed(function (UpdateClipFromFetchedClipJob $job) use ($clip) {
-            return $job->fetchedClip->external_id === $clip->external_id;
+            return $job->fetchedClip->externalId->value === $clip->external_id;
         });
     }
 
@@ -73,7 +73,7 @@ class UpdateClipsCommandTest extends TestCase
         Queue::assertPushed(DisableClipFromExternalIdJob::class, 1);
 
         Queue::assertPushed(function (DisableClipFromExternalIdJob $job) use ($clip) {
-            return $job->externalId === $clip->external_id;
+            return $job->externalId->value === $clip->external_id;
         });
     }
 

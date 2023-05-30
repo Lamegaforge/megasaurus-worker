@@ -16,7 +16,7 @@ class UpdateClipFromFetchedClip
     {
         $state = $this->suspiciousClipDetector->fromFetchedClip($fetchedClip);
 
-        Clip::where('external_id', $fetchedClip->external_id)
+        Clip::where('external_id', $fetchedClip->externalId)
             ->update([
                 'title' => $fetchedClip->title,
                 'views' => $fetchedClip->views,
