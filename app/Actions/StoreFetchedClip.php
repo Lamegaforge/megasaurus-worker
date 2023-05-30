@@ -7,6 +7,7 @@ use Domain\Models\Author;
 use Domain\Models\Game;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\FetchedAuthor;
+use App\ValueObjects\ExternalId;
 use App\Services\SuspiciousClipDetector;
 use App\Jobs\FinalizeGameCreationJob;
 
@@ -49,7 +50,9 @@ class StoreFetchedClip
         ], []);
 
         if ($game->wasRecentlyCreated) {
-            FinalizeGameCreationJob::dispatch($game->id)->onQueue('finalize-game');
+            FinalizeGameCreationJob::dispatch(
+                new ExternalId($fetchedClip->external_game_id),
+            )->onQueue('finalize-game');
         }
 
         return $game;
