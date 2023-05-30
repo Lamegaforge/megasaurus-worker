@@ -12,7 +12,6 @@ seed:
 	$(PHP) artisan app:fetch-clips-command --startedAt=2023-01
 	$(PHP) artisan app:fetch-clips-command --startedAt=2023-02
 	$(PHP) artisan app:fetch-clips-command --startedAt=2023-03
-	$(PHP) artisan app:fetch-games-command
 
 phpstan:
 	$(PHP) vendor/bin/phpstan analyse
@@ -31,9 +30,6 @@ paratest:
 
 fetch-clips:
 	$(PHP) artisan app:fetch-clips-command
-
-fetch-games:
-	$(PHP) artisan app:fetch-games-command
 
 update-clips:
 	$(PHP) artisan app:update-clips-command

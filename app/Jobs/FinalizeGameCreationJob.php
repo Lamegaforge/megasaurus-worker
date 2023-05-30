@@ -8,11 +8,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\ValueObjects\FetchedGame;
-use App\Actions\StoreFetchedGame;
+use App\ValueObjects\ExternalId;
+use App\Actions\UpdateGameFromFetchedGame;
 use App\Actions\SaveCardToSpace;
+use App\Actions\FetchGameFromExternalId;
+use Domain\Models\Game;
 
-class StoreFetchedGameJob implements ShouldQueue
+class FinalizeGameCreationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,7 +22,7 @@ class StoreFetchedGameJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public FetchedGame $fetchedGame,
+        public int $gameId,
     ) {}
 
     /**
@@ -28,15 +30,22 @@ class StoreFetchedGameJob implements ShouldQueue
      */
     public function handle(): void
     {
-        app(StoreFetchedGame::class)->handle($this->fetchedGame);
+        $game = Game::find($this->gameId);
+
+        $externalId = new ExternalId($game->external_id);
+
+        $fetchedGame = app(FetchGameFromExternalId::class)->handle($externalId);
+
+        app(UpdateGameFromFetchedGame::class)->handle($game, $fetchedGame);
 
         app(SaveCardToSpace::class)->handle(
-            card: $this->fetchedGame->card,
+            name: $externalId,
+            card: $fetchedGame->card,
         );
     }
 
     public function uniqueId(): string
     {
-        return $this->fetchedGame->external_id;
+        return $this->gameId;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\ValueObjects\Card;
+use App\ValueObjects\ExternalId;
 use Illuminate\Filesystem\FilesystemManager;
 
 class SaveCardToSpace
@@ -11,12 +12,12 @@ class SaveCardToSpace
         private FilesystemManager $filesystemManager,
     ) {}
 
-    public function handle(Card $card): void
+    public function handle(ExternalId $externalId, Card $card): void
     {
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'cards/' . $card->name,
+            'cards/' . $externalId,
             $card->content(),
         );
     }
