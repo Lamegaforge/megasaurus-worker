@@ -3,22 +3,22 @@
 namespace App\Actions;
 
 use Domain\Models\Clip;
-use Domain\Models\Author;
 use App\ValueObjects\FetchedClip;
-use App\ValueObjects\FetchedAuthor;
 use App\Services\SuspiciousClipDetector;
 use App\Actions\StoreGameFromFetchedClip;
+use App\Actions\StoreAuthorFromFetchedAuthor;
 
 class StoreFetchedClip
 {
     public function __construct(
         private SuspiciousClipDetector $suspiciousClipDetector,
+        private StoreAuthorFromFetchedAuthor $storeAuthorFromFetchedAuthor,
         private StoreGameFromFetchedClip $storeGameFromFetchedClip,
     ) {}
 
     public function handle(FetchedClip $fetchedClip): Clip
     {
-        $author = $this->retrieveOrCreateAuthor($fetchedClip->author);
+        $author = $this->storeAuthorFromFetchedAuthor->handle($fetchedClip->author);
 
         $game = $this->storeGameFromFetchedClip->handle($fetchedClip);
 
@@ -31,15 +31,6 @@ class StoreFetchedClip
         $clip->save();
 
         return $clip;
-    }
-
-    private function retrieveOrCreateAuthor(FetchedAuthor $fetchedAuthor): Author
-    {
-        return Author::firstOrCreate([
-            'external_id' => $fetchedAuthor->externalId,
-        ], [
-            'name' => $fetchedAuthor->name,
-        ]);
     }
 
     private function retrieveOrCreateClip(FetchedClip $fetchedClip): Clip

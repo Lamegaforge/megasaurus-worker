@@ -6,6 +6,7 @@ use Domain\Models\Game;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\ExternalId;
 use App\Jobs\FinalizeGameCreationJob;
+use Illuminate\Support\Facades\Cache;
 
 class StoreGameFromFetchedClip
 {
@@ -15,6 +16,7 @@ class StoreGameFromFetchedClip
 
         /** 
          * sometimes, clip is not attached to a game
+         * this happens when a game is disabled on twitch
          */
         return is_null($externalGameId) 
             ? $this->getDefaultGame() 
@@ -22,7 +24,7 @@ class StoreGameFromFetchedClip
     }
 
     /**
-     * In this situation, we make a dummy game
+     * in this situation, we make a dummy game
      */
     private function getDefaultGame(): Game
     {
@@ -34,9 +36,17 @@ class StoreGameFromFetchedClip
 
     private function firstOrCreateGame(ExternalId $externalId): Game
     {
-        $game = Game::firstOrCreate([
-            'external_id' => $externalId,
-        ], []);
+        $lockName = $this->getLockName($externalId);
+
+        /** 
+         * use of the lock to avoid duplication constraints during a game creation
+         * that can be caused by multiple workers
+         */
+        $game = Cache::lock($lockName, 3)->get(function () use ($externalId) {
+            return Game::firstOrCreate([
+                'external_id' => $externalId,
+            ], []);
+        });
 
         /**
          * if the game has just been created
@@ -47,5 +57,10 @@ class StoreGameFromFetchedClip
         }
 
         return $game;
+    }
+
+    private function getLockName(ExternalId $externalId): string
+    {
+        return 'store-game-' . $externalId->value;
     }
 }
