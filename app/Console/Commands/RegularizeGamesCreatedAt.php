@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Domain\Models\Clip;
 use Domain\Models\Game;
 
 class RegularizeGamesCreatedAt extends Command
@@ -27,11 +26,13 @@ class RegularizeGamesCreatedAt extends Command
      */
     public function handle()
     {
-        $this->withProgressBar(Game::all(), function (Game $game) {
+        $games = Game::with(['clips' => function ($query) {
+            $query->oldest('published_at');
+        }])->get();
 
-            $clip = Clip::where('external_game_id', $game->external_id)
-                ->oldest('published_at')
-                ->first();
+        $this->withProgressBar($games, function (Game $game) {
+
+            $clip = $game->clips->first();
 
             $game->update([
                 'created_at' => $clip->published_at,
