@@ -16,7 +16,7 @@ class StoreAuthorFromFetchedAuthor
          * use of the lock to avoid duplication constraints during a creation
          * that can be caused by multiple workers
          */
-        return Cache::lock($lockName, 3)->get(function () use ($fetchedAuthor) {
+        return Cache::lock($lockName, 3)->block(2, function () use ($fetchedAuthor) {
             return Author::firstOrCreate([
                 'external_id' => $fetchedAuthor->externalId,
             ], [

@@ -42,7 +42,7 @@ class StoreGameFromFetchedClip
          * use of the lock to avoid duplication constraints during a game creation
          * that can be caused by multiple workers
          */
-        $game = Cache::lock($lockName, 3)->get(function () use ($externalId) {
+        $game = Cache::lock($lockName, 3)->block(2, function () use ($externalId) {
             return Game::firstOrCreate([
                 'external_id' => $externalId,
             ], []);
