@@ -12,12 +12,12 @@ class SaveCardToSpace
         private FilesystemManager $filesystemManager,
     ) {}
 
-    public function handle(ExternalId $externalId, Card $card): void
+    public function handle(Card $card): void
     {
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'cards/' . $externalId,
+            'cards/' . $card->id,
             $card->content(),
         );
     }

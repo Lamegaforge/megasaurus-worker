@@ -15,7 +15,10 @@ readonly final class FetchedGame
         return new self(
             external_id: $attributes['id'],
             name: $attributes['name'],
-            card: Card::from($attributes),
+            card: Card::from([
+                'id' => $attributes['id'],
+                'box_art_url' => $attributes['box_art_url'],
+            ]),
         );
     }
 }

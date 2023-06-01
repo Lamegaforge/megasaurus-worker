@@ -26,7 +26,7 @@ class SaveThumbnailToSpaceTest extends TestCase
         );
 
         $thumbnail = new Thumbnail(
-            name: 'thumbnail_name',
+            id: 'thumbnail_name',
             url: '',
         );
 

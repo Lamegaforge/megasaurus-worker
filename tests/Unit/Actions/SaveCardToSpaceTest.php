@@ -6,7 +6,6 @@ use Mockery;
 use Tests\TestCase;
 use App\Actions\SaveCardToSpace;
 use App\ValueObjects\Card;
-use App\ValueObjects\ExternalId;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ContentFetcherService;
 
@@ -27,13 +26,12 @@ class SaveCardToSpaceTest extends TestCase
         );
 
         $card = Card::from([
+            'id' => '165484',
             'box_art_url' => '',
         ]);
 
-        $externalId = new ExternalId(1);
+        app(SaveCardToSpace::class)->handle($card);
 
-        app(SaveCardToSpace::class)->handle($externalId, $card);
-
-        Storage::disk('digitalocean')->assertExists('cards/' . $externalId);
+        Storage::disk('digitalocean')->assertExists('cards/165484');
     }
 }

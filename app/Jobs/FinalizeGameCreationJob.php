@@ -47,7 +47,6 @@ class FinalizeGameCreationJob implements ShouldQueue
     private function saveCardToSpace(FetchedGame $fetchedGame): void
     {
         app(SaveCardToSpace::class)->handle(
-            externalId: $this->externalId,
             card: $fetchedGame->card,
         );
     }

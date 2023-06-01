@@ -16,7 +16,7 @@ class SaveThumbnailToSpace
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'thumbnails/' . $thumbnail->name,
+            'thumbnails/' . $thumbnail->id,
             $thumbnail->content(),
         );
     }

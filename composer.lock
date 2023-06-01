@@ -1308,12 +1308,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lamegaforge/megasaurus-domain.git",
-                "reference": "69c4ef561a4cda02a9447d6496f05ca2036c3946"
+                "reference": "1c56d345280c76f0f1d37cb18bca24f028d79b38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lamegaforge/megasaurus-domain/zipball/69c4ef561a4cda02a9447d6496f05ca2036c3946",
-                "reference": "69c4ef561a4cda02a9447d6496f05ca2036c3946",
+                "url": "https://api.github.com/repos/Lamegaforge/megasaurus-domain/zipball/1c56d345280c76f0f1d37cb18bca24f028d79b38",
+                "reference": "1c56d345280c76f0f1d37cb18bca24f028d79b38",
                 "shasum": ""
             },
             "require": {
@@ -1334,7 +1334,7 @@
                 "source": "https://github.com/Lamegaforge/megasaurus-domain/tree/master",
                 "issues": "https://github.com/Lamegaforge/megasaurus-domain/issues"
             },
-            "time": "2023-05-31T19:23:17+00:00"
+            "time": "2023-05-31T19:37:06+00:00"
         },
         {
             "name": "laravel/framework",
