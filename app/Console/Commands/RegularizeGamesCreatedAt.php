@@ -26,12 +26,14 @@ class RegularizeGamesCreatedAt extends Command
      */
     public function handle()
     {
+        /** @phpstan-ignore-next-line */
         $games = Game::with(['clips' => function ($query) {
             $query->oldest('published_at');
         }])->get();
 
         $this->withProgressBar($games, function (Game $game) {
 
+            /** @phpstan-ignore-next-line */
             $clip = $game->clips->first();
 
             $game->update([
