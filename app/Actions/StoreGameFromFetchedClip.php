@@ -7,6 +7,7 @@ use App\ValueObjects\FetchedClip;
 use App\ValueObjects\ExternalId;
 use App\Jobs\FinalizeGameCreationJob;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class StoreGameFromFetchedClip
 {
@@ -31,7 +32,9 @@ class StoreGameFromFetchedClip
         return Game::firstOrCreate([
             'external_id' => 'nowhere',
             'name' => 'nowhere',
-        ], []);
+        ], [
+            'uuid' => (string) Str::uuid(),
+        ]);
     }
 
     private function firstOrCreateGame(ExternalId $externalId): Game
@@ -45,7 +48,9 @@ class StoreGameFromFetchedClip
         $game = Cache::lock($lockName, 3)->block(2, function () use ($externalId) {
             return Game::firstOrCreate([
                 'external_id' => $externalId,
-            ], []);
+            ], [
+                'uuid' => (string) Str::uuid(),
+            ]);
         });
 
         /**
@@ -53,7 +58,7 @@ class StoreGameFromFetchedClip
          * we need to get his name and card image from another API
          */
         if ($game->wasRecentlyCreated) {
-            FinalizeGameCreationJob::dispatch($externalId)->onQueue('finalize-game');
+            FinalizeGameCreationJob::dispatch($game->uuid)->onQueue('finalize-game');
         }
 
         return $game;

@@ -35,7 +35,7 @@ class StoreGameFromFetchedClipTest extends TestCase
         $this->assertSame('789456', $game->external_id);
 
         Queue::assertPushed(function (FinalizeGameCreationJob $job) use ($game) {
-            return $job->externalId->value === $game->external_id;
+            return $job->uuid === $game->uuid;
         });
     }
 

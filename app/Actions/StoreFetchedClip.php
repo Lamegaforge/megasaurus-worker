@@ -7,6 +7,7 @@ use App\ValueObjects\FetchedClip;
 use App\Services\SuspiciousClipDetector;
 use App\Actions\StoreGameFromFetchedClip;
 use App\Actions\StoreAuthorFromFetchedAuthor;
+use Illuminate\Support\Str;
 
 class StoreFetchedClip
 {
@@ -40,6 +41,7 @@ class StoreFetchedClip
         return Clip::firstOrNew([
             'external_id' => $fetchedClip->externalId,
         ], [
+            'uuid' => (string) Str::uuid(),
             'external_game_id' => $fetchedClip->externalGameId,
             'url' => $fetchedClip->url,
             'title' => $fetchedClip->title,

@@ -7,11 +7,10 @@ use App\ValueObjects\FetchedGame;
 
 class UpdateGameFromFetchedGame
 {
-    public function handle(FetchedGame $fetchedGame): void
+    public function handle(Game $game, FetchedGame $fetchedGame): void
     {
-        Game::where('external_id', $fetchedGame->external_id)
-            ->update([
-                'name' => $fetchedGame->name,
-            ]);
+        $game->update([
+            'name' => $fetchedGame->name,
+        ]);
     }
 }

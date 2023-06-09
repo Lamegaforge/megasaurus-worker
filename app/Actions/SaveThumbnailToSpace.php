@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\ValueObjects\Thumbnail;
 use Illuminate\Filesystem\FilesystemManager;
+use Domain\Models\Clip;
 
 class SaveThumbnailToSpace
 {
@@ -11,12 +12,12 @@ class SaveThumbnailToSpace
         private FilesystemManager $filesystemManager,
     ) {}
 
-    public function handle(Thumbnail $thumbnail): void
+    public function handle(Clip $clip, Thumbnail $thumbnail): void
     {
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'thumbnails/' . $thumbnail->id,
+            'thumbnails/' . $clip->uuid,
             $thumbnail->content(),
         );
     }

@@ -8,9 +8,13 @@ use App\Actions\SaveThumbnailToSpace;
 use App\ValueObjects\Thumbnail;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ContentFetcherService;
+use Domain\Models\Clip;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SaveThumbnailToSpaceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */
@@ -25,13 +29,14 @@ class SaveThumbnailToSpaceTest extends TestCase
             })
         );
 
+        $clip = Clip::factory()->create();
+
         $thumbnail = new Thumbnail(
-            id: 'thumbnail_name',
             url: '',
         );
 
-        app(SaveThumbnailToSpace::class)->handle($thumbnail);
+        app(SaveThumbnailToSpace::class)->handle($clip, $thumbnail);
 
-        Storage::disk('digitalocean')->assertExists('thumbnails/thumbnail_name');
+        Storage::disk('digitalocean')->assertExists('thumbnails/' . $clip->uuid);
     }
 }

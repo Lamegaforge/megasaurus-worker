@@ -7,7 +7,6 @@ use App\Services\ContentFetcherService;
 readonly final class Thumbnail
 {
     public function __construct(
-        public string $id,
         public string $url,
     ) {}
 

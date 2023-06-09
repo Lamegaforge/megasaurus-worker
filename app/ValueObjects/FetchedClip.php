@@ -30,7 +30,6 @@ readonly final class FetchedClip
             ),
             url: $attributes['url'],
             thumbnail: new Thumbnail(
-                id: $attributes['id'],
                 url: $attributes['thumbnail_url'],
             ),
             views: $attributes['view_count'],

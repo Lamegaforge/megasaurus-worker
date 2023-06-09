@@ -28,9 +28,10 @@ class StoreFetchedClipJob implements ShouldQueue
      */
     public function handle(): void
     {
-        app(StoreFetchedClip::class)->handle($this->fetchedClip);
+        $clip = app(StoreFetchedClip::class)->handle($this->fetchedClip);
 
         app(SaveThumbnailToSpace::class)->handle(
+            clip: $clip,
             thumbnail: $this->fetchedClip->thumbnail,
         );
     }

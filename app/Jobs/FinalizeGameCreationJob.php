@@ -13,6 +13,7 @@ use App\ValueObjects\FetchedGame;
 use App\Actions\UpdateGameFromFetchedGame;
 use App\Actions\SaveCardToSpace;
 use App\Actions\FetchGameFromExternalId;
+use Domain\Models\Game;
 
 class FinalizeGameCreationJob implements ShouldQueue
 {
@@ -22,7 +23,7 @@ class FinalizeGameCreationJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public ExternalId $externalId,
+        public string $uuid,
     ) {}
 
     /**
@@ -30,29 +31,32 @@ class FinalizeGameCreationJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $fetchedGame = $this->updateGameMissingProperty();
+        $game = Game::where('uuid', $this->uuid)->firstOrFail();
 
-        $this->saveCardToSpace($fetchedGame);
+        $fetchedGame = app(FetchGameFromExternalId::class)->handle(
+            new ExternalId($game->external_id),
+        );
+
+        $this->updateGameMissingProperty($game, $fetchedGame);
+
+        $this->saveCardToSpace($game, $fetchedGame);
     }
 
-    private function updateGameMissingProperty(): FetchedGame
+    private function updateGameMissingProperty(Game $game, FetchedGame $fetchedGame): void
     {
-        $fetchedGame = app(FetchGameFromExternalId::class)->handle($this->externalId);
-
-        app(UpdateGameFromFetchedGame::class)->handle($fetchedGame);
-
-        return $fetchedGame;
+        app(UpdateGameFromFetchedGame::class)->handle($game, $fetchedGame);
     }
 
-    private function saveCardToSpace(FetchedGame $fetchedGame): void
+    private function saveCardToSpace(Game $game, FetchedGame $fetchedGame): void
     {
         app(SaveCardToSpace::class)->handle(
+            game: $game,
             card: $fetchedGame->card,
         );
     }
 
     public function uniqueId(): string
     {
-        return $this->externalId->value;
+        return $this->uuid;
     }
 }

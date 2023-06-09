@@ -5,6 +5,7 @@ namespace App\Actions;
 use Domain\Models\Author;
 use App\ValueObjects\FetchedAuthor;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class StoreAuthorFromFetchedAuthor
 {
@@ -21,6 +22,7 @@ class StoreAuthorFromFetchedAuthor
                 'external_id' => $fetchedAuthor->externalId,
             ], [
                 'name' => $fetchedAuthor->name,
+                'uuid' => (string) Str::uuid(),
             ]);
         });
     }

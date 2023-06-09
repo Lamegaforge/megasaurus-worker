@@ -8,14 +8,12 @@ use App\Services\ContentFetcherService;
 readonly final class Card
 {
     public function __construct(
-        public string $id,
         public string $url,
     ) {}
 
     public static function from(array $attributes): self
     {
         return new self(
-            id: $attributes['id'],
             url: self::makeUrl($attributes),
         );
     }

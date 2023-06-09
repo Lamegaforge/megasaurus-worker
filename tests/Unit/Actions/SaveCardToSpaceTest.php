@@ -8,9 +8,13 @@ use App\Actions\SaveCardToSpace;
 use App\ValueObjects\Card;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ContentFetcherService;
+use Domain\Models\Game;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SaveCardToSpaceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      */
@@ -25,13 +29,14 @@ class SaveCardToSpaceTest extends TestCase
             })
         );
 
+        $game = Game::Factory()->create();
+
         $card = Card::from([
-            'id' => '165484',
             'box_art_url' => '',
         ]);
 
-        app(SaveCardToSpace::class)->handle($card);
+        app(SaveCardToSpace::class)->handle($game, $card);
 
-        Storage::disk('digitalocean')->assertExists('cards/165484');
+        Storage::disk('digitalocean')->assertExists('cards/' . $game->uuid);
     }
 }

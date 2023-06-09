@@ -37,7 +37,6 @@ class FetchedClipTest extends TestCase
         $thumbnail = $fetchedClip->thumbnail;
 
         $this->assertInstanceOf(Thumbnail::class, $thumbnail);
-        $this->assertEquals('SavageMoldyKoalaKappaClaus', $thumbnail->id);
         $this->assertEquals(
             'https://clips-media-assets2.twitch.tv/AT-cm%7C933243563-preview-480x272.jpg', 
             $thumbnail->url,

@@ -3,8 +3,8 @@
 namespace App\Actions;
 
 use App\ValueObjects\Card;
-use App\ValueObjects\ExternalId;
 use Illuminate\Filesystem\FilesystemManager;
+use Domain\Models\Game;
 
 class SaveCardToSpace
 {
@@ -12,12 +12,12 @@ class SaveCardToSpace
         private FilesystemManager $filesystemManager,
     ) {}
 
-    public function handle(Card $card): void
+    public function handle(Game $game, Card $card): void
     {
         $disk = $this->filesystemManager->disk('digitalocean');
 
         $disk->put(
-            'cards/' . $card->id,
+            'cards/' . $game->uuid,
             $card->content(),
         );
     }

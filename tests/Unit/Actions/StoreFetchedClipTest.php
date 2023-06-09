@@ -141,7 +141,7 @@ class StoreFetchedClipTest extends TestCase
         $clip = app(StoreFetchedClip::class)->handle($fetchedClip);
 
         Queue::assertPushed(function (FinalizeGameCreationJob $job) use ($clip) {
-            return $job->externalId->value === $clip->external_game_id;
+            return $job->uuid === $clip->game->uuid;
         });
     }
 }
