@@ -10,6 +10,13 @@ readonly final class FetchedGame
         public Card $card,
     ) {}
 
+    /** 
+     * @param array{
+     *  id: string,
+     *  name: string,
+     *  box_art_url: string,
+     * } $attributes
+     */
     public static function from(array $attributes): self
     {
         return new self(

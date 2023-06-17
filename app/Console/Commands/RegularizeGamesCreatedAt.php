@@ -24,7 +24,7 @@ class RegularizeGamesCreatedAt extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         /** @phpstan-ignore-next-line */
         $games = Game::with(['clips' => function ($query) {

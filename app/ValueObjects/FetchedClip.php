@@ -18,6 +18,20 @@ readonly final class FetchedClip
         public Carbon $published_at,
     ) {}
 
+    /** 
+     * @param array{
+     *  id: string,
+     *  game_id: string,
+     *  title: string,
+     *  creator_id: string,
+     *  creator_name: string,
+     *  url: string,
+     *  thumbnail_url: string,
+     *  view_count: int,
+     *  duration: int,
+     *  created_at: string,
+     * } $attributes
+     */
     public static function from(array $attributes): self
     {
         return new self(

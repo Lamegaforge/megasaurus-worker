@@ -6,9 +6,10 @@ parameters:
     paths:
         - app/
 
-    level: 5
+    level: 6
 
     noModelMake: false
+    checkGenericClassInNonGenericObjectType: false
 
     ignoreErrors:
         - '#Access to an undefined property Domain\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+\.#'

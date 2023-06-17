@@ -11,6 +11,11 @@ readonly final class Card
         public string $url,
     ) {}
 
+    /** 
+     * @param array{
+     *  box_art_url: string,
+     * } $attributes
+     */
     public static function from(array $attributes): self
     {
         return new self(
@@ -23,7 +28,12 @@ readonly final class Card
         return app(ContentFetcherService::class)->fetch($this->url);
     }
 
-    private static function makeUrl($attributes): string
+    /** 
+     * @param array{
+     *  box_art_url: string,
+     * } $attributes
+     */
+    private static function makeUrl(array $attributes): string
     {
         $url = $attributes['box_art_url'];
 

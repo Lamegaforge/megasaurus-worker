@@ -2,14 +2,15 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Jobs\UpdateClipFromFetchedClipJob;
-use App\Jobs\DisableClipFromExternalIdJob;
 use Domain\Models\Clip;
-use App\Actions\FetchClipsFromExternalIds;
-use Illuminate\Support\Collection;
 use Domain\Enums\ClipStateEnum;
+use Illuminate\Console\Command;
 use App\ValueObjects\ExternalId;
+use App\ValueObjects\FetchedClip;
+use Illuminate\Support\Collection;
+use App\Actions\FetchClipsFromExternalIds;
+use App\Jobs\DisableClipFromExternalIdJob;
+use App\Jobs\UpdateClipFromFetchedClipJob;
 
 class UpdateClipsCommand extends Command
 {
@@ -30,7 +31,7 @@ class UpdateClipsCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         Clip::whereIn('state', [ClipStateEnum::Ok, ClipStateEnum::Suspicious])
             ->chunk(100, function ($clips) {

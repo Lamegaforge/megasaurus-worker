@@ -8,7 +8,7 @@ use App\ValueObjects\SuspiciousBag;
 
 class SuspiciousTitle
 {
-    public function handle(SuspiciousBag $bag, Closure $next)
+    public function handle(SuspiciousBag $bag, Closure $next): SuspiciousBag
     {
         if (preg_match('#.*\s?\｢.*\｣#', $bag->title)) {
             $bag->state = ClipStateEnum::Suspicious;
