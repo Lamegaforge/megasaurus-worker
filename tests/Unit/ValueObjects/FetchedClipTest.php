@@ -45,6 +45,6 @@ class FetchedClipTest extends TestCase
         $publishedAt = $fetchedClip->published_at;
 
         $this->assertInstanceOf(Carbon::class, $publishedAt);
-        $this->assertEquals('2020-11-15 20:58:38', $publishedAt->format('Y-m-d H:i:s'));
+        $this->assertEquals('2020-11-15 21:58:38', $publishedAt->format('Y-m-d H:i:s'));
     }
 }

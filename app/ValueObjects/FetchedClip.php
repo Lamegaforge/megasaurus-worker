@@ -48,7 +48,21 @@ readonly final class FetchedClip
             ),
             views: $attributes['view_count'],
             duration: $attributes['duration'],
-            published_at: Carbon::parse($attributes['created_at']),
+            published_at: self::applyTimezoneOnCreatedAt($attributes),
         );
+    }
+
+    /** 
+     * Twitch default timezone is UTC
+     * 
+     * @see https://discuss.dev.twitch.tv/t/twitch-api-timezone/11322
+     */
+    private static function applyTimezoneOnCreatedAt(array $attributes): Carbon
+    {
+        $publishedAt = Carbon::parse($attributes['created_at'], 'UTC');
+
+        $publishedAt->setTimezone('Europe/Paris');
+
+        return $publishedAt;
     }
 }
