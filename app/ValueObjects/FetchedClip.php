@@ -48,7 +48,7 @@ readonly final class FetchedClip
             ),
             views: $attributes['view_count'],
             duration: $attributes['duration'],
-            published_at: self::applyTimezoneOnCreatedAt($attributes),
+            published_at: self::applyTimezoneOnCreatedAt($attributes['created_at']),
         );
     }
 
@@ -57,9 +57,9 @@ readonly final class FetchedClip
      * 
      * @see https://discuss.dev.twitch.tv/t/twitch-api-timezone/11322
      */
-    private static function applyTimezoneOnCreatedAt(array $attributes): Carbon
+    private static function applyTimezoneOnCreatedAt(string $createdAt): Carbon
     {
-        $publishedAt = Carbon::parse($attributes['created_at'], 'UTC');
+        $publishedAt = Carbon::parse($createdAt, 'UTC');
 
         $publishedAt->setTimezone('Europe/Paris');
 
