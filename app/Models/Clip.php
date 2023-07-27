@@ -49,6 +49,8 @@ class Clip extends Model
     {
         return [
             'title' => $this->title,
+            'author' => $this->author->name,
+            'game' => $this->game->name,
         ];
     }
 }

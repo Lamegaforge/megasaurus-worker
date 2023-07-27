@@ -42,6 +42,8 @@ regularize-games:
 
 algolia-flush:
 	$(PHP) artisan scout:flush "App\Models\Clip"
+	$(PHP) artisan queue:work --queue=algolia --stop-when-empty
 
 algolia-import:
 	$(PHP) artisan scout:import "App\Models\Clip"
+	$(PHP) artisan queue:work --queue=algolia --stop-when-empty
