@@ -41,8 +41,11 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', false),
-
+    'queue' => [
+        'connection' => 'database',
+        'queue' => 'algolia',
+    ],
+    
     /*
     |--------------------------------------------------------------------------
     | Database Transactions
