@@ -8,7 +8,7 @@ use App\Actions\SaveCardToSpace;
 use App\ValueObjects\Card;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ContentFetcherService;
-use Domain\Models\Game;
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SaveCardToSpaceTest extends TestCase

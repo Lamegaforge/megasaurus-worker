@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Domain\Models\Clip;
-use Domain\Enums\ClipStateEnum;
+use App\Models\Clip;
+use App\Enums\ClipStateEnum;
 use Illuminate\Console\Command;
 use App\ValueObjects\ExternalId;
-use App\ValueObjects\FetchedClip;
 use Illuminate\Support\Collection;
 use App\Actions\FetchClipsFromExternalIds;
 use App\Jobs\DisableClipFromExternalIdJob;

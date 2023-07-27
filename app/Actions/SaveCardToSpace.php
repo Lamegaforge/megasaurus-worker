@@ -4,7 +4,7 @@ namespace App\Actions;
 
 use App\ValueObjects\Card;
 use Illuminate\Filesystem\FilesystemManager;
-use Domain\Models\Game;
+use App\Models\Game;
 
 class SaveCardToSpace
 {

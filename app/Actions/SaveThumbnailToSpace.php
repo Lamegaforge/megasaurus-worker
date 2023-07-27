@@ -4,7 +4,7 @@ namespace App\Actions;
 
 use App\ValueObjects\Thumbnail;
 use Illuminate\Filesystem\FilesystemManager;
-use Domain\Models\Clip;
+use App\Models\Clip;
 
 class SaveThumbnailToSpace
 {

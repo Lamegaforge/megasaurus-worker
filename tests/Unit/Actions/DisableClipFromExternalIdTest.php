@@ -3,8 +3,8 @@
 namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
-use Domain\Enums\ClipStateEnum;
-use Domain\Models\Clip;
+use App\Enums\ClipStateEnum;
+use App\Models\Clip;
 use App\Actions\DisableClipFromExternalId;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\ValueObjects\ExternalId;
@@ -16,7 +16,7 @@ class DisableClipFromExternalIdTest extends TestCase
     /**
      * @test
      */
-    public function it_able_to_disable_a_clipqsdsdsq(): void
+    public function it_able_to_disable_a_clip(): void
     {
         $clip = Clip::factory()->create();
 

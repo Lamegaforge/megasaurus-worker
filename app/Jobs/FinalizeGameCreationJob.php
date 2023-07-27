@@ -13,7 +13,7 @@ use App\ValueObjects\FetchedGame;
 use App\Actions\UpdateGameFromFetchedGame;
 use App\Actions\SaveCardToSpace;
 use App\Actions\FetchGameFromExternalId;
-use Domain\Models\Game;
+use App\Models\Game;
 
 class FinalizeGameCreationJob implements ShouldQueue
 {

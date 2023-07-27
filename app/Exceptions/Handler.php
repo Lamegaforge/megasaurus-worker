@@ -31,9 +31,5 @@ class Handler extends ExceptionHandler
                 app('sentry')->captureException($e);
             }
         });
-
-        $this->reportable(function (Throwable $e) {
-            //
-        });
     }
 }

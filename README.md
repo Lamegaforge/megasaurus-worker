@@ -19,3 +19,20 @@ DIGITALOCEAN_SPACES_ROOT=
 SENTRY_LARAVEL_DSN=
 SENTRY_TRACES_SAMPLE_RATE=
 ```
+### Algolia & Scout
+
+- [Algolia Dashboard](https://dashboard.algolia.com/apps/TQ46K0LZKJ/dashboard)
+- [Algolia Api keys](https://dashboard.algolia.com/account/api-keys/all?applicationId=TQ46K0LZKJ)
+
+```
+SCOUT_DRIVER=
+SCOUT_QUEUE=
+
+ALGOLIA_APP_ID=
+ALGOLIA_SECRET=
+```
+
+```
+php artisan scout:flush "App\Models\Clip"
+php artisan scout:import "App\Models\Clip"
+```

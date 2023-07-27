@@ -4,9 +4,9 @@ namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
 use App\ValueObjects\FetchedClip;
-use Domain\Models\Clip;
-use Domain\Models\Game;
-use Domain\Models\Author;
+use App\Models\Clip;
+use App\Models\Game;
+use App\Models\Author;
 use App\Actions\StoreFetchedClip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Stubs\TwitchStub;

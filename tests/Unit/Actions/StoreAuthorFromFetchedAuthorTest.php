@@ -5,7 +5,7 @@ namespace Tests\Unit\Actions;
 use Tests\TestCase;
 use App\ValueObjects\FetchedAuthor;
 use App\ValueObjects\ExternalId;
-use Domain\Models\Author;
+use App\Models\Author;
 use App\Actions\StoreAuthorFromFetchedAuthor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

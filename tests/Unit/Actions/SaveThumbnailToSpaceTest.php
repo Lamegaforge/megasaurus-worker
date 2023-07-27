@@ -8,7 +8,7 @@ use App\Actions\SaveThumbnailToSpace;
 use App\ValueObjects\Thumbnail;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ContentFetcherService;
-use Domain\Models\Clip;
+use App\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SaveThumbnailToSpaceTest extends TestCase

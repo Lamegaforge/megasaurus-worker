@@ -4,8 +4,7 @@ namespace App\Services;
 
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\SuspiciousBag;
-use Domain\Enums\ClipStateEnum;
-use App\Pipelines\SuspiciousDuration;
+use App\Enums\ClipStateEnum;
 use App\Pipelines\SuspiciousTitle;
 use Illuminate\Pipeline\Pipeline;
 

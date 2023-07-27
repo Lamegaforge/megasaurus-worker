@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use Domain\Models\Author;
+use App\Models\Author;
 use App\ValueObjects\FetchedAuthor;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;

@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use Domain\Models\Game;
+use App\Models\Game;
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\ExternalId;
 use App\Jobs\FinalizeGameCreationJob;

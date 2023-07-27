@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Domain\Models\Game;
+use App\Models\Game;
 
 class RegularizeGamesCreatedAt extends Command
 {

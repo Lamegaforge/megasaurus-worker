@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-use Domain\Enums\ClipStateEnum;
+use App\Enums\ClipStateEnum;
 
 final class SuspiciousBag
 {

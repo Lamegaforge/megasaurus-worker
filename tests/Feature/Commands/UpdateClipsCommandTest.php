@@ -4,13 +4,13 @@ namespace Tests\Feature\Commands;
 
 use Closure;
 use Tests\TestCase;
-use Domain\Models\Clip;
+use App\Models\Clip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\Stubs\TwitchStub;
 use Tests\Traits\MockTwitchBearerTokenCache;
 use Illuminate\Support\Facades\Queue;
-use Domain\Enums\ClipStateEnum;
+use App\Enums\ClipStateEnum;
 use App\Jobs\UpdateClipFromFetchedClipJob;
 use App\Jobs\DisableClipFromExternalIdJob;
 
