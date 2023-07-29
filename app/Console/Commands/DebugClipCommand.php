@@ -30,11 +30,11 @@ class DebugClipCommand extends Command
         $hook = $this->argument('hook');
 
         $clip = Clip::where('uuid', $hook)
-            ->orWhere('externalId', $hook)
+            ->orWhere('external_id', $hook)
             ->firstOrFail();
 
         $fetchedClips = app(FetchClipsFromExternalIds::class)->handle(
-            collect($clip->externalId),
+            collect($clip->external_id),
         );
 
         dd($fetchedClips);
