@@ -51,6 +51,7 @@ class Clip extends Model
             'title' => $this->title,
             'author' => $this->author->name,
             'game' => $this->game->name,
+            'state' => $this->state->value,
         ];
     }
 }

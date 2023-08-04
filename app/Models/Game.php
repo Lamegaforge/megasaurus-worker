@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Game extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'uuid',
@@ -23,5 +25,12 @@ class Game extends Model
     public function clips()
     {
         return $this->hasMany(Clip::class);
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'game' => $this->name,
+        ];
     }
 }

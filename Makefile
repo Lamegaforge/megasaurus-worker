@@ -10,11 +10,6 @@ ready:
 
 seed:
 	$(PHP) artisan app:fetch-clips-command --startedAt=2023-01
-	$(PHP) artisan app:fetch-clips-command --startedAt=2023-02
-	$(PHP) artisan app:fetch-clips-command --startedAt=2023-03
-	$(PHP) artisan app:fetch-clips-command --startedAt=2022-01
-	$(PHP) artisan app:fetch-clips-command --startedAt=2022-02
-	$(PHP) artisan app:fetch-clips-command --startedAt=2022-03
 
 phpstan:
 	$(PHP) vendor/bin/phpstan analyse
@@ -42,8 +37,10 @@ regularize-games:
 
 algolia-flush:
 	$(PHP) artisan scout:flush "App\Models\Clip"
+	$(PHP) artisan scout:flush "App\Models\Game"
 	$(PHP) artisan queue:work --queue=algolia --stop-when-empty
 
 algolia-import:
 	$(PHP) artisan scout:import "App\Models\Clip"
+	$(PHP) artisan scout:import "App\Models\Game"
 	$(PHP) artisan queue:work --queue=algolia --stop-when-empty
