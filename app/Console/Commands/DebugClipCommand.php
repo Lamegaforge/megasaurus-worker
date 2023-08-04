@@ -22,7 +22,7 @@ class DebugClipCommand extends Command
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Retrieve fresh information from APIs';
 
     /**
      * Execute the console command.
