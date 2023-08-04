@@ -10,9 +10,14 @@ class DisableClipFromExternalId
 {
     public function handle(ExternalId $externalId): void
     {
-        Clip::where('external_id', $externalId)
-            ->update([
-                'state' => ClipStateEnum::Disable,
-            ]);
+        /**
+         * Using the update method does not trigger Algolia persistence.
+         * This forces us to use the save method.
+         */
+        $clip = Clip::where('external_id', $externalId)->first();
+
+        $clip->state = ClipStateEnum::Disable;
+
+        $clip->save();
     }
 }

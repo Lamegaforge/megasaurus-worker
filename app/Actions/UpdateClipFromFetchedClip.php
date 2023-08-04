@@ -16,11 +16,18 @@ class UpdateClipFromFetchedClip
     {
         $state = $this->suspiciousClipDetector->fromFetchedClip($fetchedClip);
 
-        Clip::where('external_id', $fetchedClip->externalId)
-            ->update([
-                'title' => $fetchedClip->title,
-                'views' => $fetchedClip->views,
-                'state' => $state,
-            ]);
+        /**
+         * Using the update method does not trigger Algolia persistence.
+         * This forces us to use the save method.
+         */
+        $clip = Clip::where('external_id', $fetchedClip->externalId)->first();
+
+        $clip->fill([
+            'title' => $fetchedClip->title,
+            'views' => $fetchedClip->views,
+            'state' => $state,
+        ]);
+
+        $clip->save();
     }
 }
