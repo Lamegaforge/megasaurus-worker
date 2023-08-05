@@ -53,7 +53,7 @@ class StoreFetchedClipTest extends TestCase
             'title' => 'clip_name',
             'views' => 150,
             'duration' => 20,
-            'state' => 'ok',
+            'state' => 1,
             'published_at' => '2023-01-01T00:00:00.000000Z',
             'author' => [
                 'external_id' => '456',
