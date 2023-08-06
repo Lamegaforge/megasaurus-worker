@@ -5,11 +5,21 @@ namespace App\Services;
 use RuntimeException;
 
 /** 
- * just to be able to mock the function
+ * Just to be able to mock the function.
  */
 class ContentFetcherService
 {
     public function fetch(string $url): string
+    {
+        /**
+         * Sometimes Twitch CDN is capricious.
+         */
+        return retry(2, function () use ($url) {
+            return $this->retrieveUrlContent($url);
+        }, 1000);
+    }
+
+    private function retrieveUrlContent(string $url): string
     {
         $content = file_get_contents($url);
 

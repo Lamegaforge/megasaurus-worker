@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Clip extends Model
 {
@@ -35,16 +36,19 @@ class Clip extends Model
         'published_at' => 'datetime',
     ];
 
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class);
     }
 
-    public function game()
+    public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toSearchableArray(): array
     {
         return [

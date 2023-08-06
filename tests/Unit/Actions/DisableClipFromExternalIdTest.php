@@ -3,7 +3,7 @@
 namespace Tests\Unit\Actions;
 
 use Tests\TestCase;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use App\Models\Clip;
 use App\Actions\DisableClipFromExternalId;
 use Illuminate\Foundation\Testing\RefreshDatabase;

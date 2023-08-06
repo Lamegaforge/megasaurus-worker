@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\ValueObjects\FetchedClip;
 use App\ValueObjects\SuspiciousBag;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use App\Pipelines\SuspiciousTitle;
 use Illuminate\Pipeline\Pipeline;
 

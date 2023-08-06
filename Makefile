@@ -44,3 +44,10 @@ algolia-import:
 	$(PHP) artisan scout:import "App\Models\Clip"
 	$(PHP) artisan scout:import "App\Models\Game"
 	$(PHP) artisan queue:work --queue=algolia --stop-when-empty
+
+bigbang:
+	$(PHP) artisan migrate:fresh
+	$(PHP) artisan app:fetch-clips-command --startedAt=2023-01
+	$(PHP) artisan queue:work --queue=fetch-clip --stop-when-empty
+	$(PHP) artisan queue:work --queue=finalize-game --stop-when-empty
+	$(PHP) artisan queue:work --queue=algolia --stop-when-empty

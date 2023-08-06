@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use App\Services\SuspiciousClipDetector;
 use App\ValueObjects\FetchedClip;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 
 class SuspiciousClipDetectorTest extends TestCase
 {

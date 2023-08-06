@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
@@ -19,7 +20,7 @@ class Author extends Model
         'external_id' => 'string',
     ];
 
-    public function clips()
+    public function clips(): HasMany
     {
         return $this->hasMany(Clip::class);
     }

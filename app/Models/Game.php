@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Game extends Model
 {
@@ -22,11 +23,14 @@ class Game extends Model
         'external_id' => 'string',
     ];
 
-    public function clips()
+    public function clips(): HasMany
     {
         return $this->hasMany(Clip::class);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function toSearchableArray(): array
     {
         return [

@@ -12,4 +12,4 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
 
     ignoreErrors:
-        - '#Access to an undefined property Domain\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+\.#'
+        - '#Access to an undefined property App\\Models\\[a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+\.#'

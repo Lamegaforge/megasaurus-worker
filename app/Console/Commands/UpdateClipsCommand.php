@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Clip;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use Illuminate\Console\Command;
 use App\ValueObjects\ExternalId;
 use Illuminate\Support\Collection;

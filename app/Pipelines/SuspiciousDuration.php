@@ -3,7 +3,7 @@
 namespace App\Pipelines;
 
 use Closure;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use App\ValueObjects\SuspiciousBag;
 
 class SuspiciousDuration

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Enums\ClipStateEnum;
+use Domain\Enums\ClipStateEnum;
 use App\Models\Clip;
 use App\Models\Author;
 use App\Models\Game;
