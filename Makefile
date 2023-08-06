@@ -24,7 +24,7 @@ test:
 	$(PHP) vendor/bin/phpunit $(arg)
 
 paratest:
-	$(PHP) vendor/bin/paratest --processes=5
+	$(PHP) vendor/bin/paratest --processes=5 --runner WrapperRunner
 
 fetch-clips:
 	$(PHP) artisan app:fetch-clips-command
