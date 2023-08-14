@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
 
         $schedule
             ->command('app:update-clips-command')
-            ->hourly()
+            ->dailyAt('03:00')
             ->withoutOverlapping();
     }
 
