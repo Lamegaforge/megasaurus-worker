@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Domain\Enums\ClipStateEnum;
 
 class Game extends Model
 {
@@ -16,6 +17,7 @@ class Game extends Model
         'uuid',
         'external_id',
         'name',
+        'active_clip_count',
         'created_at',
     ];
 
@@ -26,6 +28,13 @@ class Game extends Model
     public function clips(): HasMany
     {
         return $this->hasMany(Clip::class);
+    }
+
+    public function activeClips(): HasMany
+    {
+        return $this
+            ->hasMany(Clip::class)
+            ->where('state', ClipStateEnum::Ok);
     }
 
     /**
