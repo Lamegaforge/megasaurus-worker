@@ -30,8 +30,8 @@ SENTRY_TRACES_SAMPLE_RATE=
 - [Algolia Api keys](https://dashboard.algolia.com/account/api-keys/all?applicationId=PII9W2GXJ8)
 
 ```
-SCOUT_DRIVER=
-SCOUT_QUEUE=
+SCOUT_DRIVER=algolia
+SCOUT_QUEUE=true
 
 ALGOLIA_APP_ID=
 ALGOLIA_SECRET=
@@ -39,5 +39,9 @@ ALGOLIA_SECRET=
 
 ```
 php artisan scout:flush "App\Models\Clip"
+php artisan scout:flush "App\Models\Game"
+```
+```
 php artisan scout:import "App\Models\Clip"
+php artisan scout:import "App\Models\Game"
 ```
