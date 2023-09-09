@@ -19,6 +19,15 @@ DIGITALOCEAN_SPACES_ROOT=
 SENTRY_LARAVEL_DSN=
 SENTRY_TRACES_SAMPLE_RATE=
 ```
+
+## Commands
+
+```
+php artisan app:fetch-clips-command --startedAt=2023-01
+php artisan app:regularize-games-created-at
+php artisan app:update-games-active-clip-count-command
+```
+
 ## Algolia & Scout
 
 ### Dev
