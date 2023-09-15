@@ -26,8 +26,6 @@ class FetchClipsCommand extends Command
      */
     protected $description = '';
 
-    private ?Collection $clipsAlreadySaved = null;
-
     /**
      * Execute the console command.
      */
@@ -37,11 +35,9 @@ class FetchClipsCommand extends Command
 
         $fetchedClips = app(FetchClipsWithInterval::class)->handle($interval);
 
-        $fetchedClips
-            ->reject(fn (FetchedClip $fetchedClip) => $this->alreadyStore($fetchedClip))
-            ->map(function (FetchedClip $fetchedClip) {
-                StoreFetchedClipJob::dispatch($fetchedClip)->onQueue('fetch-clip');
-            });
+        $fetchedClips->map(function (FetchedClip $fetchedClip) {
+            StoreFetchedClipJob::dispatch($fetchedClip)->onQueue('fetch-clip');
+        });
 
         return SELF::SUCCESS;
     }
@@ -52,20 +48,6 @@ class FetchClipsCommand extends Command
 
         return $startedAt 
             ? Interval::wholeMonthSince($startedAt)
-            : Interval::last24Hours();
-    }
-
-    private function alreadyStore(FetchedClip $fetchedClip): bool
-    {
-        $this->clipsAlreadySaved ??= $this->getClipsAlreadySaved();
-
-        return $this->clipsAlreadySaved->contains($fetchedClip->externalId);
-    }
-
-    private function getClipsAlreadySaved(): Collection
-    {
-        $clips = Clip::select('external_id')->get();
-
-        return $clips->pluck('external_id');
+            : Interval::lastHour();
     }
 }

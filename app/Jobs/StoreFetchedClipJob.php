@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\ValueObjects\FetchedClip;
 use App\Actions\StoreFetchedClip;
 use App\Actions\SaveThumbnailToSpace;
+use App\Models\Clip;
 
 class StoreFetchedClipJob implements ShouldQueue
 {
@@ -28,6 +29,10 @@ class StoreFetchedClipJob implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->fetchedClipAlreadySaved()) {
+            return;
+        }
+
         $clip = app(StoreFetchedClip::class)->handle($this->fetchedClip);
 
         app(SaveThumbnailToSpace::class)->handle(
@@ -39,5 +44,12 @@ class StoreFetchedClipJob implements ShouldQueue
     public function uniqueId(): string
     {
         return $this->fetchedClip->externalId;
+    }
+
+    private function fetchedClipAlreadySaved(): bool
+    {
+        $exist = Clip::where( 'external_id', $this->fetchedClip->externalId)->exists();
+
+        return $exist;
     }
 }

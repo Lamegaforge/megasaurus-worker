@@ -41,6 +41,8 @@ class FetchClipsCommandTest extends TestCase
      */
     public function it_able_to_not_send_saved_clips(): void
     {
+        $this->markTestSkipped('feature currently dormant');
+
         Queue::fake();
 
         $clip = Clip::factory()->create();

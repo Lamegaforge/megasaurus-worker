@@ -11,6 +11,14 @@ readonly final class Interval
         private Carbon $endedAt,
     ) {}
 
+    public static function lastHour(): self
+    {
+        return new self(
+            startedAt: Carbon::now()->subHour(),
+            endedAt: Carbon::now(),
+        );
+    }
+
     public static function last24Hours(): self
     {
         return new self(
