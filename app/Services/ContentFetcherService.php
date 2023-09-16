@@ -5,7 +5,7 @@ namespace App\Services;
 use RuntimeException;
 
 /** 
- * Just to be able to mock the function.
+ * Just to be able to mock file_get_contents function.
  */
 class ContentFetcherService
 {
