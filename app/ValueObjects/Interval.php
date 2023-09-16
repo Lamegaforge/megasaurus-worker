@@ -44,6 +44,10 @@ readonly final class Interval
 
     public function getEndedAt(): string
     {
-        return $this->endedAt->toIso8601ZuluString();
+        /**
+         * we're adding 10 minutes to avoid a strange behaviour of the twitch api.
+         * recent clip does not appear immediately in the api data.
+         */
+        return $this->endedAt->addMinutes(10)->toIso8601ZuluString();
     }
 }
