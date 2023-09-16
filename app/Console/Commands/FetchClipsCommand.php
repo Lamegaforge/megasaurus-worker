@@ -57,15 +57,8 @@ class FetchClipsCommand extends Command
 
     private function alreadyStore(FetchedClip $fetchedClip): bool
     {
-        $this->clipsAlreadySaved ??= $this->getClipsAlreadySaved();
+        $exists = Clip::where('external_id', $fetchedClip->externalId)->exists();
 
-        return $this->clipsAlreadySaved->contains($fetchedClip->externalId);
-    }
-
-    private function getClipsAlreadySaved(): Collection
-    {
-        $clips = Clip::select('external_id')->get();
-
-        return $clips->pluck('external_id');
+        return $exists;
     }
 }
