@@ -33,6 +33,7 @@ class StoreGameFromFetchedClipTest extends TestCase
         $this->assertTrue($game->wasRecentlyCreated);
 
         $this->assertSame('789456', $game->external_id);
+        $this->assertSame(0, $game->active_clip_count);
 
         Queue::assertPushed(function (FinalizeGameCreationJob $job) use ($game) {
             return $job->uuid === $game->uuid;
@@ -46,7 +47,9 @@ class StoreGameFromFetchedClipTest extends TestCase
     {
         Queue::fake();
 
-        $game = Game::factory()->create();
+        $game = Game::factory()->create([
+            'active_clip_count' => 10,
+        ]);
 
         $fetchedClip = FetchedClip::from(
             TwitchStub::makeClip([
@@ -57,6 +60,8 @@ class StoreGameFromFetchedClipTest extends TestCase
         $game = app(StoreGameFromFetchedClip::class)->handle($fetchedClip);
 
         $this->assertFalse($game->wasRecentlyCreated);
+        
+        $this->assertSame(10, $game->active_clip_count);
 
         Queue::assertNotPushed(FinalizeGameCreationJob::class);
     }

@@ -50,6 +50,7 @@ class StoreGameFromFetchedClip
                 'external_id' => $externalId,
             ], [
                 'uuid' => (string) Str::uuid(),
+                'active_clip_count' => 0,
             ]);
         });
 
