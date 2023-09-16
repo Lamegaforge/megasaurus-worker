@@ -34,6 +34,8 @@ class UpdateClipsCommand extends Command
 
     /**
      * We also fetch suspect clips because the author can fix the name of the clip
+     *
+     * @var ClipStateEnum[]
      */
     protected array $states = [
         ClipStateEnum::Ok, 
