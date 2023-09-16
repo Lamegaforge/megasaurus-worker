@@ -28,12 +28,26 @@ class UpdateClipsCommand extends Command
     protected $description = '';
 
     /**
+     * 100 is the limit for searching clips on the twitch api
+     */
+    protected int $chunk = 100;
+
+    /**
+     * We also fetch suspect clips because the author can fix the name of the clip
+     */
+    protected array $states = [
+        ClipStateEnum::Ok, 
+        ClipStateEnum::Suspicious,
+    ];
+
+    /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        Clip::whereIn('state', [ClipStateEnum::Ok, ClipStateEnum::Suspicious])
-            ->chunk(100, function ($clips) {
+        Clip::query()
+            ->whereIn('state', $this->states)
+            ->chunk($this->chunk, function ($clips) {
 
                 $savedExternalClipIdList = $clips->pluck('external_id');
 
