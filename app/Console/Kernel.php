@@ -23,6 +23,12 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping();
 
         $schedule
+            ->command('app:update-clips-command --recent')
+            ->everyTenMinutes()
+            ->between('18:00', '01:00')
+            ->withoutOverlapping();
+
+        $schedule
             ->command('app:update-games-active-clip-count-command')
             ->dailyAt('05:00')
             ->withoutOverlapping();

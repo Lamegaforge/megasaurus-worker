@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use App\Models\Clip;
 use Domain\Enums\ClipStateEnum;
 use Illuminate\Console\Command;
@@ -18,7 +19,7 @@ class UpdateClipsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:update-clips-command';
+    protected $signature = 'app:update-clips-command {--recent}';
 
     /**
      * The console command description.
@@ -47,21 +48,25 @@ class UpdateClipsCommand extends Command
      */
     public function handle(): int
     {
-        Clip::query()
-            ->whereIn('state', $this->states)
-            ->chunk($this->chunk, function ($clips) {
+        $query = Clip::whereIn('state', $this->states);
 
-                $savedExternalClipIdList = $clips->pluck('external_id');
+        $query->when($this->option('recent'), function ($query) {
+            $query->where('published_at', '>=', Carbon::now()->subHours(3));
+        });
 
-                $fetchedClips = app(FetchClipsFromExternalIds::class)->handle($savedExternalClipIdList);
+        $query->chunk($this->chunk, function ($clips) {
 
-                $fetchedClips = $fetchedClips->groupBy('externalId.value');
+            $savedExternalClipIdList = $clips->pluck('external_id');
 
-                [$clipsToUpdate, $clipsToDisable] = $this->partitionClips($savedExternalClipIdList, $fetchedClips);
+            $fetchedClips = app(FetchClipsFromExternalIds::class)->handle($savedExternalClipIdList);
 
-                $this->updateClip($clipsToUpdate, $fetchedClips);
-                $this->disableClip($clipsToDisable);
-            });
+            $fetchedClips = $fetchedClips->groupBy('externalId.value');
+
+            [$clipsToUpdate, $clipsToDisable] = $this->partitionClips($savedExternalClipIdList, $fetchedClips);
+
+            $this->updateClip($clipsToUpdate, $fetchedClips);
+            $this->disableClip($clipsToDisable);
+        });
 
         return SELF::SUCCESS;
     }
