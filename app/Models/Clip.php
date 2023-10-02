@@ -46,6 +46,11 @@ class Clip extends Model
         return $this->belongsTo(Game::class);
     }
 
+    public function shouldBeSearchable(): bool
+    {
+        return $this->state === ClipStateEnum::Ok; 
+    }
+
     /**
      * @return array<string, mixed>
      */
